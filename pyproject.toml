@@ -1,0 +1,44 @@
+[project]
+name = "antifraud-system"
+version = "0.1.3"
+description = "antifraud-system dependencies"
+requires-python=">=3.11,<3.12"
+
+dependencies = [
+    "catboost",
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "pydantic-settings",
+    "pandas",
+    "scikit-learn>=1.6,<1.7",
+    "joblib",
+    "psycopg[binary]"
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx",
+    "locust",
+    "ruff",
+    "requests"
+]
+
+[build-system]
+requires = ["uv_build>=0.10,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "antifraud"
+module-root = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: нужна бд - адрес в DATABAE_URL"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

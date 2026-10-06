@@ -1,0 +1,4504 @@
+{
+  "rows": [
+    {
+      "step": 143,
+      "customer": "C1216867117",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 49.77
+    },
+    {
+      "step": 143,
+      "customer": "C907665937",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.82
+    },
+    {
+      "step": 143,
+      "customer": "C1887473486",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.96
+    },
+    {
+      "step": 143,
+      "customer": "C1547689237",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.89
+    },
+    {
+      "step": 143,
+      "customer": "C256310721",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 31.74
+    },
+    {
+      "step": 143,
+      "customer": "C1689772812",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 27.88
+    },
+    {
+      "step": 143,
+      "customer": "C612045723",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.5
+    },
+    {
+      "step": 143,
+      "customer": "C1033848759",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.93
+    },
+    {
+      "step": 143,
+      "customer": "C478503155",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 56.35
+    },
+    {
+      "step": 143,
+      "customer": "C368299362",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 46.02
+    },
+    {
+      "step": 143,
+      "customer": "C1605182199",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 22.34
+    },
+    {
+      "step": 143,
+      "customer": "C2070292195",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.35
+    },
+    {
+      "step": 143,
+      "customer": "C235397460",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.78
+    },
+    {
+      "step": 143,
+      "customer": "C657290155",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 55.77
+    },
+    {
+      "step": 143,
+      "customer": "C119537158",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 35.3
+    },
+    {
+      "step": 143,
+      "customer": "C356750222",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.07
+    },
+    {
+      "step": 143,
+      "customer": "C1559091388",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 36.77
+    },
+    {
+      "step": 143,
+      "customer": "C1155962240",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 30.64
+    },
+    {
+      "step": 143,
+      "customer": "C1141481813",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.81
+    },
+    {
+      "step": 143,
+      "customer": "C1558803570",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 48.77
+    },
+    {
+      "step": 143,
+      "customer": "C2143703121",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.15
+    },
+    {
+      "step": 143,
+      "customer": "C221508235",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 50.73
+    },
+    {
+      "step": 143,
+      "customer": "C83204562",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 30.27
+    },
+    {
+      "step": 143,
+      "customer": "C1646244537",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.93
+    },
+    {
+      "step": 143,
+      "customer": "C466569235",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M855959430",
+      "category": "es_hyper",
+      "amount": 9.03
+    },
+    {
+      "step": 143,
+      "customer": "C1025104996",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 37.81
+    },
+    {
+      "step": 143,
+      "customer": "C1025104996",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 29.65
+    },
+    {
+      "step": 143,
+      "customer": "C1149893807",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.01
+    },
+    {
+      "step": 143,
+      "customer": "C806399525",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.07
+    },
+    {
+      "step": 143,
+      "customer": "C1362652272",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.89
+    },
+    {
+      "step": 143,
+      "customer": "C1067668919",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 4.27
+    },
+    {
+      "step": 143,
+      "customer": "C267009229",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1053599405",
+      "category": "es_health",
+      "amount": 73.15
+    },
+    {
+      "step": 143,
+      "customer": "C267009229",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1913465890",
+      "category": "es_health",
+      "amount": 21.27
+    },
+    {
+      "step": 143,
+      "customer": "C1382480007",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.18
+    },
+    {
+      "step": 143,
+      "customer": "C825969892",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.83
+    },
+    {
+      "step": 143,
+      "customer": "C1936855292",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 45.06
+    },
+    {
+      "step": 143,
+      "customer": "C966335674",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.35
+    },
+    {
+      "step": 143,
+      "customer": "C1043944424",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.9
+    },
+    {
+      "step": 143,
+      "customer": "C1809945143",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 29.29
+    },
+    {
+      "step": 143,
+      "customer": "C810134226",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 49.33
+    },
+    {
+      "step": 143,
+      "customer": "C574062699",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 39.04
+    },
+    {
+      "step": 143,
+      "customer": "C380412694",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1649169323",
+      "category": "es_sportsandtoys",
+      "amount": 40.59
+    },
+    {
+      "step": 143,
+      "customer": "C1870640785",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 47.39
+    },
+    {
+      "step": 143,
+      "customer": "C1870640785",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.34
+    },
+    {
+      "step": 143,
+      "customer": "C1431362064",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 24.29
+    },
+    {
+      "step": 143,
+      "customer": "C548427290",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 73.53
+    },
+    {
+      "step": 143,
+      "customer": "C1840158336",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.94
+    },
+    {
+      "step": 143,
+      "customer": "C476313806",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 45.58
+    },
+    {
+      "step": 143,
+      "customer": "C2116616608",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 47.27
+    },
+    {
+      "step": 143,
+      "customer": "C1820855004",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 23.18
+    },
+    {
+      "step": 143,
+      "customer": "C1293338653",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 3.51
+    },
+    {
+      "step": 143,
+      "customer": "C2140112247",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 15.15
+    },
+    {
+      "step": 143,
+      "customer": "C1916796804",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 47.76
+    },
+    {
+      "step": 143,
+      "customer": "C276409392",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 14.97
+    },
+    {
+      "step": 143,
+      "customer": "C1264224372",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 18.68
+    },
+    {
+      "step": 143,
+      "customer": "C1435256152",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.6
+    },
+    {
+      "step": 143,
+      "customer": "C1561544871",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 31.21
+    },
+    {
+      "step": 143,
+      "customer": "C1853381059",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.73
+    },
+    {
+      "step": 143,
+      "customer": "C510934446",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 52.84
+    },
+    {
+      "step": 143,
+      "customer": "C1897705669",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 9.26
+    },
+    {
+      "step": 143,
+      "customer": "C2145337724",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 37.13
+    },
+    {
+      "step": 143,
+      "customer": "C17359646",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.93
+    },
+    {
+      "step": 143,
+      "customer": "C37682628",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 12.42
+    },
+    {
+      "step": 143,
+      "customer": "C519449235",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 46.74
+    },
+    {
+      "step": 143,
+      "customer": "C1975392482",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 4.94
+    },
+    {
+      "step": 143,
+      "customer": "C99594781",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 79.91
+    },
+    {
+      "step": 143,
+      "customer": "C1848884864",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.3
+    },
+    {
+      "step": 143,
+      "customer": "C1962407385",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 17.48
+    },
+    {
+      "step": 143,
+      "customer": "C1865204568",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 29.8
+    },
+    {
+      "step": 143,
+      "customer": "C880450043",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 5.62
+    },
+    {
+      "step": 143,
+      "customer": "C1899061870",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 18.58
+    },
+    {
+      "step": 143,
+      "customer": "C403994735",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 25.05
+    },
+    {
+      "step": 143,
+      "customer": "C1389923471",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 48.48
+    },
+    {
+      "step": 143,
+      "customer": "C177123752",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.25
+    },
+    {
+      "step": 143,
+      "customer": "C1032715879",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 59.6
+    },
+    {
+      "step": 143,
+      "customer": "C145901862",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 38.76
+    },
+    {
+      "step": 143,
+      "customer": "C362857866",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 43.69
+    },
+    {
+      "step": 143,
+      "customer": "C299858046",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 34.91
+    },
+    {
+      "step": 143,
+      "customer": "C855112247",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 55.33
+    },
+    {
+      "step": 143,
+      "customer": "C1679796651",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 43.2
+    },
+    {
+      "step": 143,
+      "customer": "C595076943",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.06
+    },
+    {
+      "step": 143,
+      "customer": "C446179646",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.89
+    },
+    {
+      "step": 143,
+      "customer": "C1628225593",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 9.97
+    },
+    {
+      "step": 143,
+      "customer": "C107438779",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 45.17
+    },
+    {
+      "step": 143,
+      "customer": "C1701618194",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.91
+    },
+    {
+      "step": 143,
+      "customer": "C1808385426",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 12.64
+    },
+    {
+      "step": 143,
+      "customer": "C1067734462",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 30.3
+    },
+    {
+      "step": 143,
+      "customer": "C226102422",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 21.72
+    },
+    {
+      "step": 143,
+      "customer": "C341886098",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.0
+    },
+    {
+      "step": 143,
+      "customer": "C1935421495",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.7
+    },
+    {
+      "step": 143,
+      "customer": "C2016997607",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.5
+    },
+    {
+      "step": 143,
+      "customer": "C1713848243",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.06
+    },
+    {
+      "step": 143,
+      "customer": "C811638781",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.19
+    },
+    {
+      "step": 143,
+      "customer": "C1187979419",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 74.06
+    },
+    {
+      "step": 143,
+      "customer": "C2103685620",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.04
+    },
+    {
+      "step": 143,
+      "customer": "C47462628",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.75
+    },
+    {
+      "step": 143,
+      "customer": "C1228110352",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.72
+    },
+    {
+      "step": 143,
+      "customer": "C630871084",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 9.86
+    },
+    {
+      "step": 143,
+      "customer": "C2083329818",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 42.61
+    },
+    {
+      "step": 143,
+      "customer": "C1359092613",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 8.48
+    },
+    {
+      "step": 143,
+      "customer": "C1511497789",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.35
+    },
+    {
+      "step": 143,
+      "customer": "C956898918",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 25.36
+    },
+    {
+      "step": 143,
+      "customer": "C1948728559",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 29.52
+    },
+    {
+      "step": 143,
+      "customer": "C1949440316",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 3.4
+    },
+    {
+      "step": 143,
+      "customer": "C1671770086",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 25.14
+    },
+    {
+      "step": 143,
+      "customer": "C1290724680",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 57.32
+    },
+    {
+      "step": 143,
+      "customer": "C1090528803",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 34.51
+    },
+    {
+      "step": 143,
+      "customer": "C1089903335",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 57.21
+    },
+    {
+      "step": 143,
+      "customer": "C125481968",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 4.21
+    },
+    {
+      "step": 143,
+      "customer": "C1287167517",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 48.4
+    },
+    {
+      "step": 143,
+      "customer": "C899895612",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 48.97
+    },
+    {
+      "step": 143,
+      "customer": "C1350409226",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.24
+    },
+    {
+      "step": 143,
+      "customer": "C671392477",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.63
+    },
+    {
+      "step": 143,
+      "customer": "C1978250683",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 5.65
+    },
+    {
+      "step": 143,
+      "customer": "C1855338494",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.51
+    },
+    {
+      "step": 143,
+      "customer": "C1294166760",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 43.0
+    },
+    {
+      "step": 143,
+      "customer": "C1715900756",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.23
+    },
+    {
+      "step": 143,
+      "customer": "C78938440",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.02
+    },
+    {
+      "step": 143,
+      "customer": "C824256643",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 9.79
+    },
+    {
+      "step": 143,
+      "customer": "C1614239388",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 53.23
+    },
+    {
+      "step": 143,
+      "customer": "C735039923",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 74.72
+    },
+    {
+      "step": 143,
+      "customer": "C1226947303",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1053599405",
+      "category": "es_health",
+      "amount": 194.66
+    },
+    {
+      "step": 143,
+      "customer": "C149511515",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 17.81
+    },
+    {
+      "step": 143,
+      "customer": "C47376492",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.87
+    },
+    {
+      "step": 143,
+      "customer": "C1896147467",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 2.0
+    },
+    {
+      "step": 143,
+      "customer": "C1525483242",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 1.62
+    },
+    {
+      "step": 143,
+      "customer": "C276142295",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 62.85
+    },
+    {
+      "step": 143,
+      "customer": "C1995719338",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.99
+    },
+    {
+      "step": 143,
+      "customer": "C1960353164",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.67
+    },
+    {
+      "step": 143,
+      "customer": "C1092769857",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 31.42
+    },
+    {
+      "step": 143,
+      "customer": "C1331907286",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 35.54
+    },
+    {
+      "step": 143,
+      "customer": "C999393223",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M855959430",
+      "category": "es_hyper",
+      "amount": 55.89
+    },
+    {
+      "step": 143,
+      "customer": "C2134399963",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 9.66
+    },
+    {
+      "step": 143,
+      "customer": "C2102316964",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 56.85
+    },
+    {
+      "step": 143,
+      "customer": "C195373250",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 61.62
+    },
+    {
+      "step": 143,
+      "customer": "C612581943",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 54.36
+    },
+    {
+      "step": 143,
+      "customer": "C723217997",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 29.19
+    },
+    {
+      "step": 143,
+      "customer": "C1273885837",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 31.47
+    },
+    {
+      "step": 143,
+      "customer": "C1422393615",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.26
+    },
+    {
+      "step": 143,
+      "customer": "C1121327223",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.65
+    },
+    {
+      "step": 143,
+      "customer": "C1502804084",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 62.67
+    },
+    {
+      "step": 143,
+      "customer": "C199664659",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.8
+    },
+    {
+      "step": 143,
+      "customer": "C602373594",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.69
+    },
+    {
+      "step": 143,
+      "customer": "C1355273346",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.29
+    },
+    {
+      "step": 143,
+      "customer": "C1316936887",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 22.49
+    },
+    {
+      "step": 143,
+      "customer": "C423454023",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 42.68
+    },
+    {
+      "step": 143,
+      "customer": "C407368472",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 25.81
+    },
+    {
+      "step": 143,
+      "customer": "C407368472",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.06
+    },
+    {
+      "step": 143,
+      "customer": "C1568308501",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.84
+    },
+    {
+      "step": 143,
+      "customer": "C206074131",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 46.85
+    },
+    {
+      "step": 143,
+      "customer": "C2055156879",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M349281107",
+      "category": "es_fashion",
+      "amount": 12.72
+    },
+    {
+      "step": 143,
+      "customer": "C1591908890",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 18.21
+    },
+    {
+      "step": 143,
+      "customer": "C1319350044",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 60.9
+    },
+    {
+      "step": 143,
+      "customer": "C712367267",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 45.28
+    },
+    {
+      "step": 143,
+      "customer": "C1897566795",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 27.29
+    },
+    {
+      "step": 143,
+      "customer": "C437189630",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 40.73
+    },
+    {
+      "step": 143,
+      "customer": "C437189630",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.06
+    },
+    {
+      "step": 143,
+      "customer": "C1687751654",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.35
+    },
+    {
+      "step": 143,
+      "customer": "C1068772542",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.92
+    },
+    {
+      "step": 143,
+      "customer": "C378899672",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 27.98
+    },
+    {
+      "step": 143,
+      "customer": "C268949400",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 37.24
+    },
+    {
+      "step": 143,
+      "customer": "C191366309",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 5.2
+    },
+    {
+      "step": 143,
+      "customer": "C256152889",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 50.23
+    },
+    {
+      "step": 143,
+      "customer": "C762614808",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.01
+    },
+    {
+      "step": 143,
+      "customer": "C1769927077",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 25.24
+    },
+    {
+      "step": 143,
+      "customer": "C1407767965",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.66
+    },
+    {
+      "step": 143,
+      "customer": "C607532274",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 39.69
+    },
+    {
+      "step": 143,
+      "customer": "C802146030",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 38.14
+    },
+    {
+      "step": 143,
+      "customer": "C1790520611",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.06
+    },
+    {
+      "step": 143,
+      "customer": "C1022153336",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 8.24
+    },
+    {
+      "step": 143,
+      "customer": "C912671040",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 13.81
+    },
+    {
+      "step": 143,
+      "customer": "C843090653",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.79
+    },
+    {
+      "step": 143,
+      "customer": "C190398591",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 3.78
+    },
+    {
+      "step": 143,
+      "customer": "C1682236855",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 49.09
+    },
+    {
+      "step": 143,
+      "customer": "C306641104",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 32.85
+    },
+    {
+      "step": 143,
+      "customer": "C1905396523",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 45.49
+    },
+    {
+      "step": 143,
+      "customer": "C843083567",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 20.18
+    },
+    {
+      "step": 143,
+      "customer": "C1333401746",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M855959430",
+      "category": "es_hyper",
+      "amount": 6.48
+    },
+    {
+      "step": 143,
+      "customer": "C830053540",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 15.96
+    },
+    {
+      "step": 143,
+      "customer": "C208889378",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 20.9
+    },
+    {
+      "step": 143,
+      "customer": "C1645276019",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 6.1
+    },
+    {
+      "step": 143,
+      "customer": "C257664421",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 4.57
+    },
+    {
+      "step": 143,
+      "customer": "C1881495517",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.07
+    },
+    {
+      "step": 143,
+      "customer": "C757234945",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.39
+    },
+    {
+      "step": 143,
+      "customer": "C986553990",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 5.88
+    },
+    {
+      "step": 143,
+      "customer": "C1459624061",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 43.18
+    },
+    {
+      "step": 143,
+      "customer": "C402994775",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 39.12
+    },
+    {
+      "step": 143,
+      "customer": "C615816786",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 68.46
+    },
+    {
+      "step": 143,
+      "customer": "C1490048317",
+      "age": "6",
+      "gender": "F",
+      "merchant": "M855959430",
+      "category": "es_hyper",
+      "amount": 12.57
+    },
+    {
+      "step": 143,
+      "customer": "C1129737137",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.26
+    },
+    {
+      "step": 143,
+      "customer": "C879949041",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 10.46
+    },
+    {
+      "step": 143,
+      "customer": "C267284908",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 38.54
+    },
+    {
+      "step": 143,
+      "customer": "C267593624",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 38.64
+    },
+    {
+      "step": 143,
+      "customer": "C1341159565",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 5.33
+    },
+    {
+      "step": 143,
+      "customer": "C1159279360",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.07
+    },
+    {
+      "step": 143,
+      "customer": "C1597289593",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.47
+    },
+    {
+      "step": 143,
+      "customer": "C1504341710",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 49.03
+    },
+    {
+      "step": 143,
+      "customer": "C1783127345",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 42.91
+    },
+    {
+      "step": 143,
+      "customer": "C858011639",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 16.4
+    },
+    {
+      "step": 143,
+      "customer": "C763253161",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 44.5
+    },
+    {
+      "step": 143,
+      "customer": "C1261640227",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 14.08
+    },
+    {
+      "step": 143,
+      "customer": "C1494829095",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M923029380",
+      "category": "es_home",
+      "amount": 22.25
+    },
+    {
+      "step": 143,
+      "customer": "C744245203",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.17
+    },
+    {
+      "step": 143,
+      "customer": "C1394428191",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 33.94
+    },
+    {
+      "step": 143,
+      "customer": "C823891015",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.76
+    },
+    {
+      "step": 143,
+      "customer": "C764048448",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 5.1
+    },
+    {
+      "step": 143,
+      "customer": "C320158645",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1198415165",
+      "category": "es_wellnessandbeauty",
+      "amount": 0.84
+    },
+    {
+      "step": 143,
+      "customer": "C855082400",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 36.34
+    },
+    {
+      "step": 143,
+      "customer": "C994739890",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.08
+    },
+    {
+      "step": 143,
+      "customer": "C296571542",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 10.47
+    },
+    {
+      "step": 143,
+      "customer": "C1433092877",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 66.24
+    },
+    {
+      "step": 143,
+      "customer": "C574852748",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 51.4
+    },
+    {
+      "step": 143,
+      "customer": "C35785606",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 1.29
+    },
+    {
+      "step": 143,
+      "customer": "C1807259356",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 39.87
+    },
+    {
+      "step": 143,
+      "customer": "C869954068",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.08
+    },
+    {
+      "step": 143,
+      "customer": "C155920620",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 47.75
+    },
+    {
+      "step": 143,
+      "customer": "C1564253251",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.34
+    },
+    {
+      "step": 143,
+      "customer": "C747353905",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.41
+    },
+    {
+      "step": 143,
+      "customer": "C636259913",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1053599405",
+      "category": "es_health",
+      "amount": 22.8
+    },
+    {
+      "step": 143,
+      "customer": "C636259913",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1913465890",
+      "category": "es_health",
+      "amount": 196.15
+    },
+    {
+      "step": 143,
+      "customer": "C1334227305",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 5.6
+    },
+    {
+      "step": 143,
+      "customer": "C1947369699",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 44.45
+    },
+    {
+      "step": 143,
+      "customer": "C2068909690",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 3.03
+    },
+    {
+      "step": 143,
+      "customer": "C1426420214",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 49.83
+    },
+    {
+      "step": 143,
+      "customer": "C1269217373",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.31
+    },
+    {
+      "step": 143,
+      "customer": "C1745468920",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M855959430",
+      "category": "es_hyper",
+      "amount": 9.72
+    },
+    {
+      "step": 143,
+      "customer": "C692102449",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 4.21
+    },
+    {
+      "step": 143,
+      "customer": "C1269288419",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 12.89
+    },
+    {
+      "step": 143,
+      "customer": "C214836772",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.06
+    },
+    {
+      "step": 143,
+      "customer": "C1143300850",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 17.94
+    },
+    {
+      "step": 143,
+      "customer": "C1897313368",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 17.85
+    },
+    {
+      "step": 143,
+      "customer": "C849342403",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 0.84
+    },
+    {
+      "step": 143,
+      "customer": "C1634492186",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 24.87
+    },
+    {
+      "step": 143,
+      "customer": "C1610467120",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.43
+    },
+    {
+      "step": 143,
+      "customer": "C2044183803",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 4.19
+    },
+    {
+      "step": 143,
+      "customer": "C1764447156",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 10.2
+    },
+    {
+      "step": 143,
+      "customer": "C1196808546",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 34.98
+    },
+    {
+      "step": 143,
+      "customer": "C203163727",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 33.74
+    },
+    {
+      "step": 143,
+      "customer": "C1258211852",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.61
+    },
+    {
+      "step": 143,
+      "customer": "C217572786",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 37.2
+    },
+    {
+      "step": 143,
+      "customer": "C19820082",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.07
+    },
+    {
+      "step": 143,
+      "customer": "C2066736149",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.54
+    },
+    {
+      "step": 143,
+      "customer": "C371570992",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.2
+    },
+    {
+      "step": 143,
+      "customer": "C59912595",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M349281107",
+      "category": "es_fashion",
+      "amount": 109.91
+    },
+    {
+      "step": 143,
+      "customer": "C297347471",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1649169323",
+      "category": "es_sportsandtoys",
+      "amount": 3.98
+    },
+    {
+      "step": 143,
+      "customer": "C1694165271",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 17.12
+    },
+    {
+      "step": 143,
+      "customer": "C975211427",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.39
+    },
+    {
+      "step": 143,
+      "customer": "C108940648",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 4.25
+    },
+    {
+      "step": 143,
+      "customer": "C1355010178",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 10.97
+    },
+    {
+      "step": 143,
+      "customer": "C1604376835",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 63.48
+    },
+    {
+      "step": 143,
+      "customer": "C167330970",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.27
+    },
+    {
+      "step": 143,
+      "customer": "C1027777422",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.62
+    },
+    {
+      "step": 143,
+      "customer": "C1767103563",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.74
+    },
+    {
+      "step": 143,
+      "customer": "C1692355722",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.05
+    },
+    {
+      "step": 143,
+      "customer": "C1514973352",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 55.12
+    },
+    {
+      "step": 143,
+      "customer": "C276623362",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.04
+    },
+    {
+      "step": 143,
+      "customer": "C752356138",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 3.5
+    },
+    {
+      "step": 143,
+      "customer": "C47208933",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 38.79
+    },
+    {
+      "step": 143,
+      "customer": "C576436654",
+      "age": "6",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 27.27
+    },
+    {
+      "step": 143,
+      "customer": "C938915039",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 34.16
+    },
+    {
+      "step": 143,
+      "customer": "C662187574",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 6.52
+    },
+    {
+      "step": 143,
+      "customer": "C1275518867",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 41.69
+    },
+    {
+      "step": 143,
+      "customer": "C1233405214",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 3.79
+    },
+    {
+      "step": 143,
+      "customer": "C1757210259",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.53
+    },
+    {
+      "step": 143,
+      "customer": "C1129111658",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 28.0
+    },
+    {
+      "step": 143,
+      "customer": "C299068475",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.49
+    },
+    {
+      "step": 143,
+      "customer": "C1383337902",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 54.98
+    },
+    {
+      "step": 143,
+      "customer": "C1754543106",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 30.03
+    },
+    {
+      "step": 143,
+      "customer": "C1200798307",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 42.19
+    },
+    {
+      "step": 143,
+      "customer": "C450584964",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 15.3
+    },
+    {
+      "step": 143,
+      "customer": "C751491447",
+      "age": "0",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 19.61
+    },
+    {
+      "step": 143,
+      "customer": "C171345183",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 24.57
+    },
+    {
+      "step": 143,
+      "customer": "C1758950662",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 8.1
+    },
+    {
+      "step": 143,
+      "customer": "C140648396",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 13.05
+    },
+    {
+      "step": 143,
+      "customer": "C382789952",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 58.82
+    },
+    {
+      "step": 143,
+      "customer": "C1557448880",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.03
+    },
+    {
+      "step": 143,
+      "customer": "C1657987748",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 37.99
+    },
+    {
+      "step": 143,
+      "customer": "C1714385979",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.34
+    },
+    {
+      "step": 143,
+      "customer": "C1078619612",
+      "age": "6",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 17.21
+    },
+    {
+      "step": 143,
+      "customer": "C851156881",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.58
+    },
+    {
+      "step": 143,
+      "customer": "C1872660217",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 30.48
+    },
+    {
+      "step": 143,
+      "customer": "C2018553540",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 102.12
+    },
+    {
+      "step": 143,
+      "customer": "C441989517",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.44
+    },
+    {
+      "step": 143,
+      "customer": "C49915499",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 53.42
+    },
+    {
+      "step": 143,
+      "customer": "C49864446",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 14.16
+    },
+    {
+      "step": 143,
+      "customer": "C1407087523",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.97
+    },
+    {
+      "step": 143,
+      "customer": "C1379814778",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.84
+    },
+    {
+      "step": 143,
+      "customer": "C1913314890",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 8.73
+    },
+    {
+      "step": 143,
+      "customer": "C373733261",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 18.76
+    },
+    {
+      "step": 143,
+      "customer": "C480975116",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 8.38
+    },
+    {
+      "step": 143,
+      "customer": "C383709704",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 13.82
+    },
+    {
+      "step": 143,
+      "customer": "C725705195",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 42.57
+    },
+    {
+      "step": 143,
+      "customer": "C312053639",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.96
+    },
+    {
+      "step": 143,
+      "customer": "C1202857292",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.4
+    },
+    {
+      "step": 143,
+      "customer": "C401828466",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1053599405",
+      "category": "es_health",
+      "amount": 78.55
+    },
+    {
+      "step": 143,
+      "customer": "C1304621872",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 17.62
+    },
+    {
+      "step": 143,
+      "customer": "C750572020",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 30.49
+    },
+    {
+      "step": 143,
+      "customer": "C771874671",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 28.13
+    },
+    {
+      "step": 143,
+      "customer": "C107125195",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 46.08
+    },
+    {
+      "step": 143,
+      "customer": "C531724764",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 49.32
+    },
+    {
+      "step": 143,
+      "customer": "C1187730955",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 8.39
+    },
+    {
+      "step": 143,
+      "customer": "C1423644375",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.07
+    },
+    {
+      "step": 143,
+      "customer": "C1622124632",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 27.19
+    },
+    {
+      "step": 143,
+      "customer": "C1622124632",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.88
+    },
+    {
+      "step": 143,
+      "customer": "C2005070127",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M480139044",
+      "category": "es_health",
+      "amount": 31.9
+    },
+    {
+      "step": 143,
+      "customer": "C1382187685",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M480139044",
+      "category": "es_health",
+      "amount": 358.08
+    },
+    {
+      "step": 143,
+      "customer": "C100045114",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.18
+    },
+    {
+      "step": 143,
+      "customer": "C396716441",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 44.4
+    },
+    {
+      "step": 143,
+      "customer": "C1130259702",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 27.76
+    },
+    {
+      "step": 143,
+      "customer": "C188367998",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.4
+    },
+    {
+      "step": 143,
+      "customer": "C1641076533",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.44
+    },
+    {
+      "step": 143,
+      "customer": "C743934970",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.67
+    },
+    {
+      "step": 143,
+      "customer": "C354098761",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.06
+    },
+    {
+      "step": 143,
+      "customer": "C91915601",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.39
+    },
+    {
+      "step": 143,
+      "customer": "C286580355",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 28.21
+    },
+    {
+      "step": 143,
+      "customer": "C830856919",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 52.31
+    },
+    {
+      "step": 143,
+      "customer": "C1679430600",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.36
+    },
+    {
+      "step": 143,
+      "customer": "C1836308269",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.78
+    },
+    {
+      "step": 143,
+      "customer": "C1663162700",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 42.47
+    },
+    {
+      "step": 143,
+      "customer": "C1457264318",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 102.84
+    },
+    {
+      "step": 143,
+      "customer": "C539791425",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 13.36
+    },
+    {
+      "step": 143,
+      "customer": "C624012210",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 39.65
+    },
+    {
+      "step": 143,
+      "customer": "C1530098029",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 4.64
+    },
+    {
+      "step": 143,
+      "customer": "C559852072",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 49.69
+    },
+    {
+      "step": 143,
+      "customer": "C142251484",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.53
+    },
+    {
+      "step": 143,
+      "customer": "C339931011",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 47.39
+    },
+    {
+      "step": 143,
+      "customer": "C1558014544",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 49.6
+    },
+    {
+      "step": 143,
+      "customer": "C734817849",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 2.85
+    },
+    {
+      "step": 143,
+      "customer": "C1005126300",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 56.82
+    },
+    {
+      "step": 143,
+      "customer": "C131423135",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 47.48
+    },
+    {
+      "step": 143,
+      "customer": "C1108967401",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 16.51
+    },
+    {
+      "step": 143,
+      "customer": "C678697032",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 34.85
+    },
+    {
+      "step": 143,
+      "customer": "C2132932756",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.75
+    },
+    {
+      "step": 143,
+      "customer": "C1434853621",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 7.87
+    },
+    {
+      "step": 143,
+      "customer": "C1645579872",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.72
+    },
+    {
+      "step": 143,
+      "customer": "C1051712338",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 43.48
+    },
+    {
+      "step": 143,
+      "customer": "C701909142",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.86
+    },
+    {
+      "step": 143,
+      "customer": "C852586467",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 87.5
+    },
+    {
+      "step": 143,
+      "customer": "C836959718",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.22
+    },
+    {
+      "step": 143,
+      "customer": "C1634901253",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 12.75
+    },
+    {
+      "step": 143,
+      "customer": "C1132392725",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 24.29
+    },
+    {
+      "step": 143,
+      "customer": "C1132392725",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 4.72
+    },
+    {
+      "step": 143,
+      "customer": "C38227648",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 48.1
+    },
+    {
+      "step": 143,
+      "customer": "C980876590",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 48.61
+    },
+    {
+      "step": 143,
+      "customer": "C1204046804",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 31.57
+    },
+    {
+      "step": 143,
+      "customer": "C957324981",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.0
+    },
+    {
+      "step": 143,
+      "customer": "C279936687",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 38.89
+    },
+    {
+      "step": 143,
+      "customer": "C1082462651",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 38.0
+    },
+    {
+      "step": 143,
+      "customer": "C964123988",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1535107174",
+      "category": "es_wellnessandbeauty",
+      "amount": 129.68
+    },
+    {
+      "step": 143,
+      "customer": "C964123988",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1198415165",
+      "category": "es_wellnessandbeauty",
+      "amount": 53.59
+    },
+    {
+      "step": 143,
+      "customer": "C964123988",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M209847108",
+      "category": "es_wellnessandbeauty",
+      "amount": 61.48
+    },
+    {
+      "step": 143,
+      "customer": "C138375181",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.94
+    },
+    {
+      "step": 143,
+      "customer": "C908342050",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 45.22
+    },
+    {
+      "step": 143,
+      "customer": "C1501782229",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 11.27
+    },
+    {
+      "step": 143,
+      "customer": "C876944738",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 30.1
+    },
+    {
+      "step": 143,
+      "customer": "C2136422351",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 39.62
+    },
+    {
+      "step": 143,
+      "customer": "C621230638",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 22.31
+    },
+    {
+      "step": 143,
+      "customer": "C775533998",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 1.61
+    },
+    {
+      "step": 143,
+      "customer": "C1388726904",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 6.36
+    },
+    {
+      "step": 143,
+      "customer": "C1513653440",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 14.25
+    },
+    {
+      "step": 143,
+      "customer": "C2005070127",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 50.28
+    },
+    {
+      "step": 143,
+      "customer": "C1427325535",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 8.36
+    },
+    {
+      "step": 143,
+      "customer": "C2112631749",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 12.02
+    },
+    {
+      "step": 143,
+      "customer": "C460218551",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.56
+    },
+    {
+      "step": 143,
+      "customer": "C509362814",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 31.06
+    },
+    {
+      "step": 143,
+      "customer": "C1512732275",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 32.81
+    },
+    {
+      "step": 143,
+      "customer": "C1708732499",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 37.61
+    },
+    {
+      "step": 143,
+      "customer": "C1939349733",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 31.97
+    },
+    {
+      "step": 143,
+      "customer": "C404247926",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 6.61
+    },
+    {
+      "step": 143,
+      "customer": "C1284515419",
+      "age": "6",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 61.78
+    },
+    {
+      "step": 143,
+      "customer": "C1524019070",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 40.32
+    },
+    {
+      "step": 143,
+      "customer": "C114388565",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 62.68
+    },
+    {
+      "step": 143,
+      "customer": "C2112350124",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 23.95
+    },
+    {
+      "step": 143,
+      "customer": "C371396143",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 5.48
+    },
+    {
+      "step": 143,
+      "customer": "C1940951230",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 43.78
+    },
+    {
+      "step": 143,
+      "customer": "C1402381285",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.75
+    },
+    {
+      "step": 143,
+      "customer": "C1353625448",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 9.26
+    },
+    {
+      "step": 143,
+      "customer": "C1098443227",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 34.83
+    },
+    {
+      "step": 143,
+      "customer": "C1098443227",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 13.6
+    },
+    {
+      "step": 143,
+      "customer": "C1412753123",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 35.54
+    },
+    {
+      "step": 143,
+      "customer": "C1862384239",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.08
+    },
+    {
+      "step": 143,
+      "customer": "C1014783484",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1946091778",
+      "category": "es_wellnessandbeauty",
+      "amount": 0.09
+    },
+    {
+      "step": 143,
+      "customer": "C245908628",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.14
+    },
+    {
+      "step": 143,
+      "customer": "C475340225",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.8
+    },
+    {
+      "step": 143,
+      "customer": "C96868586",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 75.56
+    },
+    {
+      "step": 143,
+      "customer": "C1890250226",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.78
+    },
+    {
+      "step": 143,
+      "customer": "C47652503",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 39.75
+    },
+    {
+      "step": 143,
+      "customer": "C590614528",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 32.66
+    },
+    {
+      "step": 143,
+      "customer": "C133432771",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 25.46
+    },
+    {
+      "step": 143,
+      "customer": "C1255236689",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.14
+    },
+    {
+      "step": 143,
+      "customer": "C1232356156",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 31.83
+    },
+    {
+      "step": 143,
+      "customer": "C1691073795",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 39.13
+    },
+    {
+      "step": 143,
+      "customer": "C1242643189",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M840466850",
+      "category": "es_tech",
+      "amount": 125.05
+    },
+    {
+      "step": 143,
+      "customer": "C1209651258",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.74
+    },
+    {
+      "step": 143,
+      "customer": "C299357678",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1053599405",
+      "category": "es_health",
+      "amount": 135.0
+    },
+    {
+      "step": 143,
+      "customer": "C299357678",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1913465890",
+      "category": "es_health",
+      "amount": 101.91
+    },
+    {
+      "step": 143,
+      "customer": "C2113973089",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 2.17
+    },
+    {
+      "step": 143,
+      "customer": "C1060120913",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 50.88
+    },
+    {
+      "step": 143,
+      "customer": "C1557448113",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 18.99
+    },
+    {
+      "step": 143,
+      "customer": "C1543709139",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 27.98
+    },
+    {
+      "step": 143,
+      "customer": "C2091583256",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 47.88
+    },
+    {
+      "step": 143,
+      "customer": "C1957046981",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 6.42
+    },
+    {
+      "step": 143,
+      "customer": "C2048667042",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 37.57
+    },
+    {
+      "step": 143,
+      "customer": "C1124449361",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 10.78
+    },
+    {
+      "step": 143,
+      "customer": "C1433318702",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 13.97
+    },
+    {
+      "step": 143,
+      "customer": "C1838681949",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 33.8
+    },
+    {
+      "step": 143,
+      "customer": "C507185945",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.25
+    },
+    {
+      "step": 143,
+      "customer": "C345640256",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.92
+    },
+    {
+      "step": 143,
+      "customer": "C1158875335",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 5.35
+    },
+    {
+      "step": 143,
+      "customer": "C1087943403",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 15.92
+    },
+    {
+      "step": 143,
+      "customer": "C918659260",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 13.84
+    },
+    {
+      "step": 143,
+      "customer": "C1073865173",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 42.77
+    },
+    {
+      "step": 143,
+      "customer": "C566628469",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 34.71
+    },
+    {
+      "step": 143,
+      "customer": "C1744098311",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1053599405",
+      "category": "es_health",
+      "amount": 60.52
+    },
+    {
+      "step": 143,
+      "customer": "C1744098311",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1913465890",
+      "category": "es_health",
+      "amount": 6.05
+    },
+    {
+      "step": 143,
+      "customer": "C1950723662",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 18.53
+    },
+    {
+      "step": 143,
+      "customer": "C609359335",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M151143676",
+      "category": "es_barsandrestaurants",
+      "amount": 52.26
+    },
+    {
+      "step": 143,
+      "customer": "C2057462116",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.52
+    },
+    {
+      "step": 143,
+      "customer": "C766494418",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.23
+    },
+    {
+      "step": 143,
+      "customer": "C1482659693",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.84
+    },
+    {
+      "step": 143,
+      "customer": "C1677202028",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 35.96
+    },
+    {
+      "step": 143,
+      "customer": "C12284077",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 60.27
+    },
+    {
+      "step": 143,
+      "customer": "C367052603",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 21.85
+    },
+    {
+      "step": 143,
+      "customer": "C1299368401",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.3
+    },
+    {
+      "step": 143,
+      "customer": "C286547187",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 18.22
+    },
+    {
+      "step": 143,
+      "customer": "C627811000",
+      "age": "6",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 33.69
+    },
+    {
+      "step": 143,
+      "customer": "C627811000",
+      "age": "6",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 41.07
+    },
+    {
+      "step": 143,
+      "customer": "C297351696",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 42.33
+    },
+    {
+      "step": 143,
+      "customer": "C630392370",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M85975013",
+      "category": "es_food",
+      "amount": 48.51
+    },
+    {
+      "step": 143,
+      "customer": "C22162402",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 38.41
+    },
+    {
+      "step": 143,
+      "customer": "C136606306",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 43.82
+    },
+    {
+      "step": 143,
+      "customer": "C1801270098",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 25.36
+    },
+    {
+      "step": 143,
+      "customer": "C871962456",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 32.88
+    },
+    {
+      "step": 143,
+      "customer": "C1160421902",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 32.27
+    },
+    {
+      "step": 143,
+      "customer": "C62153477",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M840466850",
+      "category": "es_tech",
+      "amount": 45.1
+    },
+    {
+      "step": 143,
+      "customer": "C1158029630",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 15.15
+    },
+    {
+      "step": 143,
+      "customer": "C742393642",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.39
+    },
+    {
+      "step": 143,
+      "customer": "C1677624934",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 10.01
+    },
+    {
+      "step": 143,
+      "customer": "C1033416330",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.6
+    },
+    {
+      "step": 143,
+      "customer": "C1196611038",
+      "age": "5",
+      "gender": "M",
+      "merchant": "M1198415165",
+      "category": "es_wellnessandbeauty",
+      "amount": 5.65
+    },
+    {
+      "step": 143,
+      "customer": "C986156699",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.03
+    },
+    {
+      "step": 143,
+      "customer": "C1640022626",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 5.93
+    },
+    {
+      "step": 143,
+      "customer": "C2002750382",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 35.01
+    },
+    {
+      "step": 143,
+      "customer": "C526384621",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 33.79
+    },
+    {
+      "step": 143,
+      "customer": "C956954767",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1313686961",
+      "category": "es_contents",
+      "amount": 59.22
+    },
+    {
+      "step": 143,
+      "customer": "C1809615650",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 45.57
+    },
+    {
+      "step": 143,
+      "customer": "C800379810",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 44.44
+    },
+    {
+      "step": 143,
+      "customer": "C477542874",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M840466850",
+      "category": "es_tech",
+      "amount": 57.3
+    },
+    {
+      "step": 143,
+      "customer": "C699081415",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 6.0
+    },
+    {
+      "step": 143,
+      "customer": "C1273564839",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 36.83
+    },
+    {
+      "step": 143,
+      "customer": "C959506480",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.11
+    },
+    {
+      "step": 143,
+      "customer": "C512338137",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.37
+    },
+    {
+      "step": 143,
+      "customer": "C1196579721",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.65
+    },
+    {
+      "step": 143,
+      "customer": "C1549322511",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 22.52
+    },
+    {
+      "step": 143,
+      "customer": "C16723337",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1888755466",
+      "category": "es_otherservices",
+      "amount": 24.82
+    },
+    {
+      "step": 143,
+      "customer": "C69477057",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 14.22
+    },
+    {
+      "step": 143,
+      "customer": "C470079617",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.02
+    },
+    {
+      "step": 143,
+      "customer": "C612230385",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 37.71
+    },
+    {
+      "step": 143,
+      "customer": "C247656929",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.16
+    },
+    {
+      "step": 143,
+      "customer": "C1048588440",
+      "age": "6",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 2.64
+    },
+    {
+      "step": 143,
+      "customer": "C1283110336",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 42.2
+    },
+    {
+      "step": 143,
+      "customer": "C1638268213",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 9.23
+    },
+    {
+      "step": 143,
+      "customer": "C1400397779",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 0.25
+    },
+    {
+      "step": 143,
+      "customer": "C1703648667",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 10.16
+    },
+    {
+      "step": 143,
+      "customer": "C72353846",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.49
+    },
+    {
+      "step": 143,
+      "customer": "C1495681901",
+      "age": "1",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 7.77
+    },
+    {
+      "step": 143,
+      "customer": "C2044070952",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 28.0
+    },
+    {
+      "step": 143,
+      "customer": "C1467832188",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 4.36
+    },
+    {
+      "step": 143,
+      "customer": "C1730375460",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 47.84
+    },
+    {
+      "step": 143,
+      "customer": "C573104116",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M151143676",
+      "category": "es_barsandrestaurants",
+      "amount": 18.43
+    },
+    {
+      "step": 143,
+      "customer": "C837031785",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.25
+    },
+    {
+      "step": 143,
+      "customer": "C749077907",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 68.06
+    },
+    {
+      "step": 143,
+      "customer": "C1781924994",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 10.87
+    },
+    {
+      "step": 143,
+      "customer": "C1394931354",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 21.61
+    },
+    {
+      "step": 143,
+      "customer": "C599960999",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 67.29
+    },
+    {
+      "step": 143,
+      "customer": "C897612698",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 25.31
+    },
+    {
+      "step": 143,
+      "customer": "C144835944",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 36.11
+    },
+    {
+      "step": 143,
+      "customer": "C494777408",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.49
+    },
+    {
+      "step": 143,
+      "customer": "C357634845",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 12.43
+    },
+    {
+      "step": 143,
+      "customer": "C1402203755",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.49
+    },
+    {
+      "step": 143,
+      "customer": "C1249070059",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 7.83
+    },
+    {
+      "step": 143,
+      "customer": "C1557540123",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 19.45
+    },
+    {
+      "step": 143,
+      "customer": "C1832119955",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 3.17
+    },
+    {
+      "step": 143,
+      "customer": "C845102514",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 11.78
+    },
+    {
+      "step": 143,
+      "customer": "C1740186506",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 6.1
+    },
+    {
+      "step": 143,
+      "customer": "C1207935724",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 16.36
+    },
+    {
+      "step": 143,
+      "customer": "C1591152121",
+      "age": "3",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 15.38
+    },
+    {
+      "step": 143,
+      "customer": "C1385406679",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 43.74
+    },
+    {
+      "step": 143,
+      "customer": "C200511130",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 24.91
+    },
+    {
+      "step": 143,
+      "customer": "C586511331",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 33.75
+    },
+    {
+      "step": 143,
+      "customer": "C185428348",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 41.0
+    },
+    {
+      "step": 143,
+      "customer": "C1992803690",
+      "age": "2",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 26.98
+    },
+    {
+      "step": 143,
+      "customer": "C869565327",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 36.34
+    },
+    {
+      "step": 143,
+      "customer": "C869565327",
+      "age": "5",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 15.25
+    },
+    {
+      "step": 143,
+      "customer": "C1990073844",
+      "age": "4",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 17.74
+    },
+    {
+      "step": 143,
+      "customer": "C58668191",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 18.55
+    },
+    {
+      "step": 143,
+      "customer": "C1342849651",
+      "age": "1",
+      "gender": "M",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 64.91
+    },
+    {
+      "step": 143,
+      "customer": "C601235628",
+      "age": "4",
+      "gender": "F",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 16.92
+    },
+    {
+      "step": 143,
+      "customer": "C1667929755",
+      "age": "3",
+      "gender": "F",
+      "merchant": "M1823072687",
+      "category": "es_transportation",
+      "amount": 3.08
+    },
+    {
+      "step": 143,
+      "customer": "C132320296",
+      "age": "2",
+      "gender": "M",
+      "merchant": "M348934600",
+      "category": "es_transportation",
+      "amount": 14.15
+    }
+  ]
+}

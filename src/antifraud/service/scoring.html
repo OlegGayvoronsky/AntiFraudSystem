@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Антифрод — скоринг</title>
+<style>
+  :root {
+    --accent: #1b7a6d;
+    --accent-dark: #156358;
+    --border: #e2e5e9;
+    --text: #1f2328;
+    --muted: #6b7280;
+    --bg: #f7f8fa;
+    --danger: #b3261e;
+    --warn: #9a6b00;
+    --ok: #1b7a6d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 24px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.5 -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  .card h2 { margin: 0 0 16px; font-size: 16px; font-weight: 700; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 16px; }
+  .field label {
+    display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px;
+  }
+  .field input, .field select {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 14px; background: #fff; color: var(--text);
+  }
+  .btn {
+    display: inline-block; border: none; border-radius: 6px; padding: 10px 18px;
+    background: var(--accent); color: #fff; font-size: 14px; font-weight: 600;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn-row { margin-top: 16px; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+  .chip {
+    display: inline-block; background: #eef1f0; border-radius: 4px;
+    padding: 1px 6px; font-size: 12px; color: var(--text);
+  }
+  .file-row { display: flex; gap: 12px; align-items: center; }
+  .file-row input[type=file] { flex: 1; }
+  .error {
+    border-radius: 8px; background: #fdeeee; border: 1px solid #f3c6c4;
+    color: var(--danger); padding: 10px 14px; font-size: 13px;
+  }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .metric { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .metric .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .metric .value { font-size: 20px; font-weight: 700; }
+  .badge { font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 5px; }
+  .badge.fraud { background: #fdeeee; color: var(--danger); }
+  .badge.review { background: #fdf4e0; color: var(--warn); }
+  .badge.not-fraud { background: #e9f5f2; color: var(--ok); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  .reasons-note { font-size: 13px; margin: 4px 0 10px; }
+  .reasons-list { margin: 0; padding-left: 18px; }
+  .reasons-list li { margin-bottom: 4px; }
+  .pos { color: var(--danger); }
+  .neg { color: var(--ok); }
+  .kv-table td:first-child { color: var(--muted); width: 55%; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card">
+    <h2>Ручной скоринг транзакции</h2>
+    <form method="post" action="/ui/score">
+      <div class="grid">
+        <div class="field"><label>Step</label><input type="number" name="step" min="0" required></div>
+        <div class="field"><label>Customer</label><input type="text" name="customer" required></div>
+        <div class="field"><label>Age</label>
+          <select name="age">
+            <option>0</option><option>1</option><option>2</option><option>3</option>
+            <option>4</option><option>5</option><option>6</option><option>U</option>
+          </select>
+        </div>
+        <div class="field"><label>Gender</label>
+          <select name="gender">
+            <option>M</option><option>F</option><option>E</option><option>U</option>
+          </select>
+        </div>
+        <div class="field"><label>Merchant</label><input type="text" name="merchant" required></div>
+        <div class="field"><label>Category</label>
+          <select name="category">
+            <option>es_transportation</option><option>es_food</option><option>es_health</option>
+            <option>es_wellnessandbeauty</option><option>es_fashion</option><option>es_barsandrestaurants</option>
+            <option>es_hyper</option><option>es_sportsandtoys</option><option>es_tech</option>
+            <option>es_home</option><option>es_hotelservices</option><option>es_otherservices</option>
+            <option>es_contents</option><option>es_travel</option><option>es_leisure</option>
+          </select>
+        </div>
+        <div class="field"><label>Amount</label><input type="number" step="0.01" min="0" name="amount" required></div>
+      </div>
+      <div class="btn-row"><button class="btn" type="submit">Рассчитать риск</button></div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Batch-скоринг транзакций</h2>
+    <form method="post" action="/ui/score/batch" enctype="multipart/form-data">
+      <div class="file-row">
+        <input type="file" name="file" accept=".csv" required>
+        <button class="btn" type="submit">Загрузить и рассчитать</button>
+      </div>
+      <div class="hint">
+        CSV должен содержать колонки:
+        <span class="chip">step</span> <span class="chip">customer</span> <span class="chip">age</span>
+        <span class="chip">gender</span> <span class="chip">merchant</span> <span class="chip">category</span>
+        <span class="chip">amount</span>.
+        После загрузки на странице появится таблица первых 50 строк, а полный результат сохранится в папку uploads.
+      </div>
+    </form>
+  </div>
+
+  {% if error %}
+  <div class="card"><div class="error">{{ error }}</div></div>
+  {% endif %}
+
+  {% if single_result %}
+  <div class="card">
+    <h2>Результат скоринга</h2>
+    <div class="metrics">
+      <div class="metric">
+        <div class="label">Вероятность фрода</div>
+        <div class="value">{{ "%.1f"|format(single_result.score * 100) }}%</div>
+      </div>
+      <div class="metric">
+        <div class="label">Пороги a / b</div>
+        <div class="value" style="font-size:16px;">
+          {{ "%.1f"|format(single_result.threshold_a * 100) }}% / {{ "%.1f"|format(single_result.threshold_b * 100) }}%
+        </div>
+      </div>
+      <div class="metric">
+        <div class="label">Класс</div>
+        <div class="value"><span class="badge {{ single_result.css_class }}">{{ single_result.cls }}</span></div>
+      </div>
+      <div class="metric">
+        <div class="label">Решение</div>
+        <div class="value" style="font-size:16px;">{{ single_result.decision }}</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:20px;">Основные причины</h2>
+    <div class="reasons-note">Положительный вклад повышает риск фрода, отрицательный — снижает.</div>
+    <ul class="reasons-list">
+      {% for name, value in single_result.reasons %}
+      <li>{{ name }}: <span class="{{ 'pos' if value > 0 else 'neg' }}">{{ "%+.3f"|format(value) }}</span></li>
+      {% endfor %}
+    </ul>
+
+    <h2 style="margin-top:20px;">Итоговые признаки</h2>
+    <table class="kv-table">
+      {% for name, value in single_result.final_features.items() %}
+      <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
+      {% endfor %}
+    </table>
+    <div class="hint">Время расчёта: {{ single_result.latency_ms }} мс</div>
+  </div>
+  {% endif %}
+
+  {% if batch_result %}
+  <div class="card">
+    <h2>Batch-результат</h2>
+    <div class="metrics">
+      <div class="metric"><div class="label">Всего строк</div><div class="value">{{ batch_result.total }}</div></div>
+      <div class="metric"><div class="label">Заблокировано</div><div class="value">{{ batch_result.block }}</div></div>
+      <div class="metric"><div class="label">Пропущено</div><div class="value">{{ batch_result.approve }}</div></div>
+      <div class="metric"><div class="label">На ручную проверку</div><div class="value">{{ batch_result.review }}</div></div>
+    </div>
+    <div class="hint">Полный результат сохранён: {{ batch_result.saved_path }}</div>
+
+    <table style="margin-top:14px;">
+      <thead>
+        <tr>
+          <th>Customer</th><th>Merchant</th><th>Amount</th>
+          <th>P(fraud)</th><th>Класс</th><th>Решение</th><th>Основные причины</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in batch_result.rows %}
+        <tr>
+          <td>{{ row.customer }}</td>
+          <td>{{ row.merchant }}</td>
+          <td>{{ row.amount }}</td>
+          <td>{{ "%.1f"|format(row.p_fraud * 100) }}%</td>
+          <td>{{ row["class"] }}</td>
+          <td>{{ row.decision }}</td>
+          <td>{{ row.reasons }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+</div>
+</body>
+</html>
