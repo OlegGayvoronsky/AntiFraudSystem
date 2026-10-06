@@ -15,7 +15,7 @@ import math
 import threading
 from collections.abc import Iterator
 from contextlib import contextmanager
-from dataclasses import field, dataclass
+from dataclasses import dataclass, field
 from typing import Protocol
 
 import pandas as pd

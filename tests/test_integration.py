@@ -8,7 +8,7 @@ import pytest
 from offline_preprocessing import make_features
 
 from antifraud import db
-from antifraud.preprocessing import DbStateStore, FeatureBuilder
+from antifraud.service.preprocessing import DbStateStore, FeatureBuilder
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -211,7 +211,7 @@ def test_state_is_persisted_between_requests(state_prefix):
  
  
 def test_late_transaction_is_rejected_and_state_not_changed(state_prefix):
-    from antifraud.preprocessing import LateTransactionError
+    from antifraud.service.preprocessing import LateTransactionError
  
     row = {
         "step": 5,

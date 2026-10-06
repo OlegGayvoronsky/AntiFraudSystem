@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 
 from antifraud import db
-from antifraud.preprocessing import DbStateStore, FeatureBuilder, warm_start
+from antifraud.service.preprocessing import DbStateStore, FeatureBuilder, warm_start
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("warm_start")
