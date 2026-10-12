@@ -29,5 +29,5 @@ class Prediction(BaseModel):
     score: float
     decision: Literal["ФРОД", "НЕ ФРОД", "НЕОПРЕДЕЛЕНО"]
     model_version: str
-    request_id: str
+    transaction_id: str
     latency_ms: float
