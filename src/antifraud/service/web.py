@@ -43,8 +43,13 @@ def _final_frame(request: Request, rows: list[dict]) -> pd.DataFrame:
 @router.get("/ui", response_class=HTMLResponse)
 def scoring_page(request: Request):
     return templates.TemplateResponse(
-        "scoring.html",
-        {"request": request, "single_result": None, "batch_result": None, "error": None},
+        request=request,
+        name="scoring.html",
+        context={
+            "single_result": None,
+            "batch_result": None,
+            "error": None,
+        },
     )
 
 
@@ -68,9 +73,13 @@ def score_single(
         Features(**raw)
     except ValidationError as exc:
         return templates.TemplateResponse(
-            "scoring.html",
-            {"request": request, "single_result": None, "batch_result": None,
-             "error": f"Некорректные данные: {exc.errors()[0]['msg']}"},
+            request=request,
+            name="scoring.html",
+            context={
+                "single_result": None,
+                "batch_result": None,
+                "error": f"Некорректные данные: {exc.errors()[0]['msg']}"
+            }
         )
 
     t0 = time.perf_counter()
@@ -107,8 +116,13 @@ def score_single(
     }
 
     return templates.TemplateResponse(
-        "scoring.html",
-        {"request": request, "single_result": single_result, "batch_result": None, "error": None},
+        request=request,
+        name="scoring.html",
+        context={
+            "single_result": single_result,
+            "batch_result": None,
+            "error": None
+        },
     )
 
 
@@ -176,6 +190,11 @@ async def score_batch(request: Request, file: UploadFile = File(...)):
     }
 
     return templates.TemplateResponse(
-        "scoring.html",
-        {"request": request, "single_result": None, "batch_result": batch_result, "error": None},
-    )
+            request=request,
+            name="scoring.html",
+            context={
+                "single_result": None,
+                "batch_result": batch_result,
+                "error": None
+            },
+        )

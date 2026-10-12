@@ -32,6 +32,7 @@ source = { editable = "." }
 dependencies = [
     { name = "catboost" },
     { name = "fastapi" },
+    { name = "jinja2" },
     { name = "joblib" },
     { name = "pandas" },
     { name = "psycopg", extra = ["binary"] },
@@ -55,6 +56,7 @@ dev = [
 requires-dist = [
     { name = "catboost" },
     { name = "fastapi" },
+    { name = "jinja2", specifier = ">=3.1.6" },
     { name = "joblib" },
     { name = "pandas" },
     { name = "psycopg", extras = ["binary"] },
