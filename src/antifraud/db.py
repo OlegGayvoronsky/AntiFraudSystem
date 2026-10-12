@@ -12,6 +12,7 @@ DDL = """
         model_version text NOT NULL,
         features jsonb NOT NULL,
         score double precision,
+        decision text,
         latency_ms double precision,
         response_code int NOT NULL
     )
@@ -42,6 +43,7 @@ def save_prediction(
     model_version: str,
     features: dict,
     score: float | None,
+    decision: str | None,
     latency_ms: float | None,
     response_code: int
 ) -> None:
@@ -54,10 +56,11 @@ def save_prediction(
                 model_version,
                 features,
                 score,
+                decision,
                 latency_ms,
                 response_code
             )
-            VALUES (%s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         conn.execute(
             insert_request,
@@ -66,6 +69,7 @@ def save_prediction(
                 model_version,
                 Json(features),
                 score,
+                decision,
                 latency_ms,
                 response_code
             )

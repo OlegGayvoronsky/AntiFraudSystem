@@ -1,11 +1,6 @@
 """
 Веб-интерфейс ручного и batch-скоринга поверх /v1/predict-логики.
 
-Подключение в app.py:
-
-    from antifraud.service.web import router as web_router
-    app.include_router(web_router)
-
 Ожидается, что в app.state уже есть (как в lifespan основного API):
     app.state.pipeline  -- обученный CatBoostClassifier (без sklearn Pipeline)
     app.state.meta      -- {"features": [...], "threshold": b, "model_version": ...}
@@ -16,19 +11,19 @@ from __future__ import annotations
 
 import io
 import time
-import uuid
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
-from fastapi import APIRouter, Form, Request, UploadFile, File
+from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import ValidationError
 
 from antifraud.config import settings
-from antifraud.explain import feature_label
-from antifraud.service.schemas import Features  # поправьте путь под ваш проект
+from antifraud.service.explain import feature_label
+from antifraud.service.make_decision import MANUAL_REVIEW_THRESHOLD_A, decide
+from antifraud.service.models import Features
 
 router = APIRouter()
 
@@ -36,19 +31,6 @@ TEMPLATES_DIR = Path(__file__).parent / "templates"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 RAW_BATCH_COLUMNS = ["step", "customer", "age", "gender", "merchant", "category", "amount"]
-
-# Порог a — ручная "серая зона" для доразметки. Порог b берётся из
-# app.state.meta["threshold"] (подобран на обучении под целевую specificity).
-# ЗАГЛУШКА: подставьте реальное значение, когда оно будет определено бизнесом.
-MANUAL_REVIEW_THRESHOLD_A = getattr(settings, "manual_review_threshold", 0.2)
-
-
-def _decide(score: float, threshold_b: float, threshold_a: float = MANUAL_REVIEW_THRESHOLD_A):
-    if score >= threshold_b:
-        return "ФРОД", "ЗАБЛОКИРОВАТЬ", "fraud"
-    if score < threshold_a:
-        return "НЕ ФРОД", "ПРОПУСТИТЬ", "not-fraud"
-    return "НЕОПРЕДЕЛЕНО", "НА РУЧНУЮ ПРОВЕРКУ", "review"
 
 
 def _final_frame(request: Request, rows: list[dict]) -> pd.DataFrame:
@@ -61,8 +43,13 @@ def _final_frame(request: Request, rows: list[dict]) -> pd.DataFrame:
 @router.get("/ui", response_class=HTMLResponse)
 def scoring_page(request: Request):
     return templates.TemplateResponse(
-        "scoring.html",
-        {"request": request, "single_result": None, "batch_result": None, "error": None},
+        request=request,
+        name="scoring.html",
+        context={
+            "single_result": None,
+            "batch_result": None,
+            "error": None,
+        },
     )
 
 
@@ -86,20 +73,27 @@ def score_single(
         Features(**raw)
     except ValidationError as exc:
         return templates.TemplateResponse(
-            "scoring.html",
-            {"request": request, "single_result": None, "batch_result": None,
-             "error": f"Некорректные данные: {exc.errors()[0]['msg']}"},
+            request=request,
+            name="scoring.html",
+            context={
+                "single_result": None,
+                "batch_result": None,
+                "error": f"Некорректные данные: {exc.errors()[0]['msg']}"
+            }
         )
 
     t0 = time.perf_counter()
     frame, enriched_rows = _final_frame(request, [raw])
-
-    model = request.app.state.pipeline
-    score = float(model.predict_proba(frame)[0, 1])
+    
+    model = request.app.state.model
     threshold_b = request.app.state.meta["threshold"]
-    cls, decision, css_class = _decide(score, threshold_b)
+    top_n = request.app.state.explainer_top_n
 
-    reasons = request.app.state.explainer.explain(frame, top_n=5)[0]
+    
+    score = float(model.predict_proba(frame)[0, 1])
+    cls, decision, css_class = decide(score, threshold_b)
+
+    reasons = request.app.state.explainer.explain(frame, top_n=top_n)[0]
     reasons_fmt = [(feature_label(name), value) for name, value in reasons]
 
     final_features = {
@@ -122,8 +116,13 @@ def score_single(
     }
 
     return templates.TemplateResponse(
-        "scoring.html",
-        {"request": request, "single_result": single_result, "batch_result": None, "error": None},
+        request=request,
+        name="scoring.html",
+        context={
+            "single_result": single_result,
+            "batch_result": None,
+            "error": None
+        },
     )
 
 
@@ -152,14 +151,15 @@ async def score_batch(request: Request, file: UploadFile = File(...)):
     frame, enriched_rows = _final_frame(request, rows)
 
     model = request.app.state.pipeline
-    scores = model.predict_proba(frame)[:, 1]
     threshold_b = request.app.state.meta["threshold"]
+    top_n = request.app.state.explainer_top_n
 
-    reasons_per_row = request.app.state.explainer.explain(frame, top_n=3)
+    scores = float(model.predict_proba(frame)[:, 1])
+    reasons_per_row = request.app.state.explainer.explain(frame, top_n=top_n)
 
     decisions, classes, reasons_fmt = [], [], []
-    for score, reasons in zip(scores, reasons_per_row):
-        cls, decision, _ = _decide(float(score), threshold_b)
+    for score, reasons in zip(scores, reasons_per_row, strict=True):
+        cls, decision, _ = decide(float(score), threshold_b)
         classes.append(cls)
         decisions.append(decision)
         reasons_fmt.append(
@@ -190,6 +190,11 @@ async def score_batch(request: Request, file: UploadFile = File(...)):
     }
 
     return templates.TemplateResponse(
-        "scoring.html",
-        {"request": request, "single_result": None, "batch_result": batch_result, "error": None},
-    )
+            request=request,
+            name="scoring.html",
+            context={
+                "single_result": None,
+                "batch_result": batch_result,
+                "error": None
+            },
+        )

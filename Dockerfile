@@ -18,4 +18,4 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 COPY artifacts/ artifacts/
 
 EXPOSE 8000
-CMD ["uv", "run", "--no-sync", "uvicorn", "churn.service.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "--no-sync", "uvicorn", "antifraud.service.app:app", "--host", "0.0.0.0", "--port", "8000"]

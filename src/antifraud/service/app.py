@@ -3,7 +3,6 @@ import logging
 import time
 import uuid
 from contextlib import asynccontextmanager
-from typing import Literal
 
 import joblib
 import pandas as pd
@@ -11,42 +10,15 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
 from starlette.background import BackgroundTask
 
 from antifraud import db
 from antifraud.config import settings
-from antifraud.preprocessing import FeatureBuilder, LateTransactionError
-
-
-class Features(BaseModel):
-    model_config = {"extra": "forbid"}
-
-    step: int = Field(ge=0)
-    customer: str
-    age: Literal["0", "1", "2", "3", "4", "5", "6", "U"]
-    gender: Literal["M", "F", "E", "U"]
-    merchant: str
-    category: Literal[
-        'es_transportation', 'es_food', 'es_health',
-        'es_wellnessandbeauty', 'es_fashion', 'es_barsandrestaurants',
-        'es_hyper', 'es_sportsandtoys', 'es_tech',
-        'es_home', 'es_hotelservices', 'es_otherservices',
-       'es_contents', 'es_travel', 'es_leisure'
-    ]
-    amount: float = Field(ge=0)
-
-
-class BatchFeatures(BaseModel):
-    rows: list[Features] = Field(min_length=1, max_length=1000)
-
-
-class Prediction(BaseModel):
-    score: float
-    fraud: bool
-    model_version: str
-    request_id: str
-    latency_ms: float
+from antifraud.service.explain import Explainer
+from antifraud.service.make_decision import decide
+from antifraud.service.models import BatchFeatures, Features, Prediction
+from antifraud.service.preprocessing import FeatureBuilder, LateTransactionError
+from antifraud.service.web import router as web_router
 
 
 @asynccontextmanager
@@ -56,6 +28,8 @@ async def lifespan(app: FastAPI):
     app.state.meta = bundle["metadata"]
     app.state.version = bundle["metadata"]["model_version"]
     app.state.features = FeatureBuilder()
+    app.state.explainer = Explainer(app.state.model, app.state.meta["features"])
+    app.state.explainer_top_n = settings.explainer_top_n
 
     db.init()
     yield
@@ -63,7 +37,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="antifraud-system", version="1.0", lifespan=lifespan)
-
+app.include_router(web_router)
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +70,7 @@ async def late_transaction_handler(request: Request, exc: LateTransactionError):
         _safe_payload(body),
         None,
         None,
+        None,
         409,
     )
     return response
@@ -113,6 +88,7 @@ async def validation_error_handler(request: Request, exc: RequestValidationError
         request_id,
         getattr(app.state, "version", "unknown"),
         _safe_payload(exc.body),
+        None,
         None,
         None,
         422,
@@ -148,6 +124,7 @@ async def unhandled_error_middleware(request: Request, call_next):
                 _safe_payload(body),
                 None,
                 None,
+                None,
                 500,
             )
         return response
@@ -172,10 +149,14 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
     request_id = str(uuid.uuid4())
     
     payload = app.state.features.build([x.model_dump()])[0]
-    
     frame = pd.DataFrame([payload]).reindex(columns=app.state.meta["features"])
 
-    score = float(app.state.model.predict_proba(frame)[0, 1])
+    model = app.state.model
+    threshold_b = app.state.meta["threshold"]
+    # top_n = app.state.explainer_top_n
+
+    score = float(model.predict_proba(frame)[0, 1])
+    cls, _, _ = decide(score, threshold_b)
 
     latency_ms = round((time.perf_counter() - t0) * 1000, 2)
 
@@ -185,15 +166,14 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
         app.state.version,
         payload,
         score,
+        cls,
         latency_ms,
         200
     )
 
-    fraud = score >= app.state.meta["threshold"]
-
     return Prediction(
         score=score,
-        fraud=fraud,
+        decision=cls,
         model_version=app.state.version,
         request_id=request_id,
         latency_ms=latency_ms
@@ -211,7 +191,11 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
         .reindex(columns=app.state.meta["features"])
     )
 
-    scores = app.state.model.predict_proba(frame)[:, 1]
+    model = app.state.model
+    threshold_b = app.state.meta["threshold"]
+    # top_n = app.state.explainer_top_n
+
+    scores = model.predict_proba(frame)[:, 1]
     latency_ms = round((time.perf_counter() - t0) * 1000, 2)
 
     results = []
@@ -219,13 +203,14 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
     for payload, score in zip(payloads, scores, strict=True):
         request_id = str(uuid.uuid4())
         score = float(score)
-        fraud = score >= app.state.meta["threshold"]
+        cls, _, _ = decide(score, threshold_b)
         bg.add_task(
             db.save_prediction,
             request_id,
             app.state.version,
             payload,
             score,
+            cls,
             latency_ms,
             200
         )
@@ -233,7 +218,7 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
         results.append(
             Prediction(
                 score=score,
-                fraud=fraud,
+                decision=cls,
                 model_version=app.state.version,
                 request_id=request_id,
                 latency_ms=latency_ms,

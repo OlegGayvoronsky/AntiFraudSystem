@@ -8,7 +8,7 @@ import pytest
 from offline_preprocessing import make_features
 
 from antifraud import db
-from antifraud.preprocessing import DbStateStore, FeatureBuilder
+from antifraud.service.preprocessing import DbStateStore, FeatureBuilder
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -26,7 +26,7 @@ def test_prediction_is_logged(client, good_row):
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
-            "SELECT model_version, score, features->>'category', response_code "
+            "SELECT model_version, score, decision, features->>'category', response_code "
             "FROM predictions WHERE request_id = %s",
             (body["request_id"],),
         ).fetchone()
@@ -34,8 +34,9 @@ def test_prediction_is_logged(client, good_row):
     assert row is not None
     assert row[0] == body["model_version"]
     assert row[1] == pytest.approx(body["score"])
-    assert row[2] == good_row["category"]
-    assert row[3] == 200
+    assert row[2] == body["decision"]
+    assert row[3] == good_row["category"]
+    assert row[4] == 200
 
 
 def test_bad_age_is_logged(client, good_row):
@@ -47,13 +48,15 @@ def test_bad_age_is_logged(client, good_row):
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
-            "SELECT model_version, score, response_code "
+            "SELECT model_version, score, decision, response_code "
             "FROM predictions WHERE request_id = %s",
             (request_id,),
         ).fetchone()
 
     assert row is not None
-    assert row[2] == 422
+    assert row[1] == None
+    assert row[2] == None
+    assert row[3] == 422
 
 
 def test_missing_field_is_logged(client, good_row):
@@ -66,13 +69,15 @@ def test_missing_field_is_logged(client, good_row):
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
-            "SELECT model_version, score, response_code "
+            "SELECT model_version, score, decision, response_code "
             "FROM predictions WHERE request_id = %s",
             (request_id,),
         ).fetchone()
 
     assert row is not None
-    assert row[2] == 422
+    assert row[1] == None
+    assert row[2] == None
+    assert row[3] == 422
 
 
 def test_extra_field_is_422(client, good_row):
@@ -84,13 +89,15 @@ def test_extra_field_is_422(client, good_row):
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
-            "SELECT model_version, score, response_code "
+            "SELECT model_version, score, decision, response_code "
             "FROM predictions WHERE request_id = %s",
             (request_id,),
         ).fetchone()
 
     assert row is not None
-    assert row[2] == 422
+    assert row[1] == None
+    assert row[2] == None
+    assert row[3] == 422
 
 
 def test_batch_prediction_is_logged(client, good_row):
@@ -102,14 +109,14 @@ def test_batch_prediction_is_logged(client, good_row):
 
     with psycopg.connect(DATABASE_URL) as conn:
         db_rows = conn.execute(
-            "SELECT request_id, score, response_code "
+            "SELECT request_id, score, decision, response_code "
             "FROM predictions WHERE request_id = ANY(%s) "
             "ORDER BY request_id",
             (request_ids,),
         ).fetchall()
 
     assert len(db_rows) == len(good_rows)
-    assert all(r[2] == 200 for r in db_rows)
+    assert all(r[3] == 200 for r in db_rows)
 
     body_sorted = sorted(body, key=lambda r: r["request_id"])
 
@@ -120,6 +127,7 @@ def test_batch_prediction_is_logged(client, good_row):
     ):
         assert str(db_row[0]) == resp_row["request_id"]
         assert db_row[1] == pytest.approx(resp_row["score"])
+        assert db_row[2] == resp_row["decision"]
 
 
 def test_trash_row_in_batch_is_logged_once(client, good_row):
@@ -131,12 +139,14 @@ def test_trash_row_in_batch_is_logged_once(client, good_row):
 
     with psycopg.connect(DATABASE_URL) as conn:
         db_rows = conn.execute(
-            "SELECT response_code FROM predictions WHERE request_id = %s",
+            "SELECT score, decision, response_code FROM predictions WHERE request_id = %s",
             (request_id,),
         ).fetchall()
 
     assert len(db_rows) == 1
-    assert db_rows[0][0] == 422
+    assert db_rows[0][0] == None
+    assert db_rows[0][1] == None
+    assert db_rows[0][2] == 422
 
 
 @pytest.fixture
@@ -211,7 +221,7 @@ def test_state_is_persisted_between_requests(state_prefix):
  
  
 def test_late_transaction_is_rejected_and_state_not_changed(state_prefix):
-    from antifraud.preprocessing import LateTransactionError
+    from antifraud.service.preprocessing import LateTransactionError
  
     row = {
         "step": 5,
