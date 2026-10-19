@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 
 from antifraud.service.app import app
 
-BATCH_PATH = Path(__file__).parent / "history.csv"
+BATCH_PATH = Path(__file__).parent / "good_batch.json"
 
 
 @pytest.fixture(scope="session")

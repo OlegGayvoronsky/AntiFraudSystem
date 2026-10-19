@@ -25,16 +25,19 @@ from __future__ import annotations
 import threading
 import uuid
 from collections import defaultdict
+from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Iterable, Iterator, Protocol
+from typing import Protocol
 
 import numpy as np
 import pandas as pd
-from antifraud.config import settings
+
 from antifraud import db
+from antifraud.config import settings
 
 CUSTOMER, MERCHANT = "customer", "merchant"
+NAMESPACE = uuid.UUID("6f1c2a52-4a0e-4c3b-9d57-0b7a3a1f2e11")
 
 
 @dataclass(frozen=True)
@@ -71,7 +74,7 @@ class DbSession:
         return {k: Stats(*v) for k, v in raw.items()}
 
     def insert(self, rows: list[dict]) -> None:
-        db.save_transaction(self.conn, rows)
+        db.insert_transactions(self.conn, rows)
 
 
 class DbStore:
@@ -89,7 +92,7 @@ class MemorySession:
         self._ids = {r["transaction_id"] for r in rows}
 
     def entity_stats(self, kind: str, ids: set, step: int) -> dict:
-        col = f"{kind}_id"
+        col = kind
         buckets: dict = defaultdict(list)
         for row in self.rows:
             if row["step"] < step and row[col] in ids:
@@ -102,7 +105,7 @@ class MemorySession:
                 mean=float(amounts.mean()),
                 std=float(amounts.std(ddof=1)) if len(rows) > 1 else 0.0,
                 last_step=max(row["step"] for row in rows),
-                unique=len({row["customer_id"] for row in rows}),
+                unique=len({row["customer"] for row in rows}),
             )
         return out
 
@@ -162,16 +165,18 @@ class FeatureSession:
             for i in idxs:
                 row = rows[i]
                 amount = float(row["amount"])
+                tid = str(row.get("transaction_id") or uuid.uuid4())
                 cid = row["customer"]
                 mid = row["merchant"]
 
                 out[i] = {
                     **row,
+                    "transaction_id": tid,
                     **entity_features(CUSTOMER, c_stats.get(cid), step, amount),
                     **entity_features(MERCHANT, m_stats.get(mid), step, amount),
                 }
                 to_insert.append({
-                    "transaction_id": row.get("transaction_id"), "step": step,
+                    "transaction_id": tid, "step": step,
                     "customer": cid, "merchant": mid,
                     "age": str(row["age"]), "gender": str(row["gender"]),
                     "category": str(row["category"]), "amount": amount,
@@ -197,12 +202,6 @@ class FeatureBuilder:
             return feature_session.build(rows)
 
 
-# --------------------------------------------------------------------------
-# Загрузка истории
-# --------------------------------------------------------------------------
-HISTORY_COLUMNS = ["step", "customer", "merchant", "age", "gender", "category", "amount"]
-
-
 def warm_start(builder: FeatureBuilder, history: pd.DataFrame, chunk: int = 20_000) -> None:
     """
     Загружает историю в transactions (без расчёта признаков). Идемпотентно:
@@ -210,25 +209,30 @@ def warm_start(builder: FeatureBuilder, history: pd.DataFrame, chunk: int = 20_0
     детерминированно строится из содержимого строки, поэтому повторный
     запуск на том же файле не создаёт дублей (ON CONFLICT DO NOTHING).
     """
-    missing = [c for c in HISTORY_COLUMNS if c not in history.columns]
-    if missing:
-        raise ValueError(f"в истории нет колонок: {missing}")
-
     h = history.sort_values("step", kind="stable").reset_index(drop=True)
     for start in range(0, len(h), chunk):
         part = h.iloc[start:start + chunk]
         rows = []
-        for pos, r in zip(range(start, start + len(part)), part.itertuples(index=False)):
+        for pos, row in zip(
+            range(start, start + len(part)),
+            part.itertuples(index=False),
+            strict=True
+        ):
             tid = (
-                uuid.UUID(str(r.transaction_id)) if "transaction_id" in part.columns
-                else uuid.uuid5(_NAMESPACE, f"{pos}|{r.step}|{r.customer}|{r.merchant}|{r.amount}")
+                row.transaction_id if "transaction_id" in part.columns
+                else str(uuid.uuid5(
+                    NAMESPACE,
+                    f"{pos}|{row.step}|{row.customer}|{row.age}|"
+                    f"{row.gender}|{row.merchant}|{row.category}|{row.amount}"
+                ))
             )
+
             rows.append({
-                "transaction_id": tid, "step": int(r.step),
-                "customer_id": entity_uuid(CUSTOMER, r.customer),
-                "merchant_id": entity_uuid(MERCHANT, r.merchant),
-                "age": str(r.age), "gender": str(r.gender),
-                "category": str(r.category), "amount": float(r.amount),
+                "transaction_id": tid, "step": int(row.step),
+                "customer": row.customer,
+                "merchant": row.merchant,
+                "age": row.age, "gender": str(row.gender),
+                "category": str(row.category), "amount": float(row.amount),
             })
-        with builder.store.session() as s:
-            s.insert(rows)
+        with builder.store.session() as store:
+            store.insert(rows)

@@ -1,200 +1,179 @@
-"""
-Веб-интерфейс ручного и batch-скоринга поверх /v1/predict-логики.
-
-Ожидается, что в app.state уже есть (как в lifespan основного API):
-    app.state.pipeline  -- обученный CatBoostClassifier (без sklearn Pipeline)
-    app.state.meta      -- {"features": [...], "threshold": b, "model_version": ...}
-    app.state.features  -- antifraud.preprocessing.FeatureBuilder
-    app.state.explainer -- antifraud.explain.Explainer (создать рядом с pipeline в lifespan)
+"""Web-интерфейс Anti-Fraud: рабочее окно аналитика.
+Ожидается, что в app.state.features лежит FeatureBuilder.
 """
 from __future__ import annotations
 
-import io
-import time
-from datetime import datetime
+import logging
+import math
+import re
 from pathlib import Path
+from typing import Any, Literal
+from uuid import UUID
 
-import pandas as pd
-from fastapi import APIRouter, File, Form, Request, UploadFile
+import psycopg
+from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from pydantic import ValidationError
+from psycopg.rows import dict_row
+from pydantic import BaseModel
 
-from antifraud.config import settings
-from antifraud.service.explain import feature_label
-from antifraud.service.make_decision import MANUAL_REVIEW_THRESHOLD_A, decide
-from antifraud.service.models import Features
+from antifraud.db import db as _db
+
+log = logging.getLogger(__name__)
 
 router = APIRouter()
+templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent / "templates"))
 
-TEMPLATES_DIR = Path(__file__).parent / "templates"
-templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
+API_PREFIX = "/scoring/api"
 
-RAW_BATCH_COLUMNS = ["step", "customer", "age", "gender", "merchant", "category", "amount"]
+TX_FIELDS = (
+                "transaction_id", "step", "customer",
+                "merchant", "age", "gender", "category", "amount"
+            )
+
+SHAP_TABLE = "shap_values"
+SHAP_COLUMN = "shap"
+
+MAX_IDS = 1000
 
 
-def _final_frame(request: Request, rows: list[dict]) -> pd.DataFrame:
-    """Строит фрейм с историческими признаками в порядке app.state.meta['features']."""
-    enriched = request.app.state.features.build(rows)
-    features = request.app.state.meta["features"]
-    return pd.DataFrame(enriched).reindex(columns=features), enriched
+def _clean(o: Any) -> Any:
+    """NaN/inf -> None, numpy-скаляры -> python (иначе JSON-ответ упадёт)."""
+    if hasattr(o, "item") and callable(o.item) and not isinstance(o, (dict, list, tuple)):
+        try:
+            o = o.item()
+        except Exception:
+            pass
+    if isinstance(o, float):
+        return o if math.isfinite(o) else None
+    if isinstance(o, dict):
+        return {k: _clean(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_clean(v) for v in o]
+    return o
 
 
-@router.get("/ui", response_class=HTMLResponse)
+@router.get("/scoring", response_class=HTMLResponse)
 def scoring_page(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="scoring.html",
-        context={
-            "single_result": None,
-            "batch_result": None,
-            "error": None,
-        },
-    )
+    return templates.TemplateResponse(request, "scoring.html", {"api": API_PREFIX})
 
 
-@router.post("/ui/score", response_class=HTMLResponse)
-def score_single(
-    request: Request,
-    step: int = Form(...),
-    customer: str = Form(...),
-    age: str = Form(...),
-    gender: str = Form(...),
-    merchant: str = Form(...),
-    category: str = Form(...),
-    amount: float = Form(...),
+_SELECT = """
+    SELECT t.transaction_id, t.step, t.customer, t.merchant, t.age, t.gender,
+           t.category, t.amount, t.received_at,
+           p.score, p.decision, p.in_review_queue, p.model_version, p.scored_at,
+           p.features, l.fraud AS manual_fraud, l.label_received_at
+"""
+_FROM = """
+    FROM predictions p
+    JOIN transactions t ON t.transaction_id = p.transaction_id
+    LEFT JOIN fraud_labels l ON l.transaction_id = p.transaction_id
+"""
+
+_MODE_WHERE = {
+    "review": "p.score IS NOT NULL AND upper(p.decision) = 'REVIEW' AND p.in_review_queue IS TRUE",
+    "decided": "p.score IS NOT NULL AND upper(p.decision) IN ('ALLOW', 'BLOCK')",
+}
+
+
+def _parse_ids(raw: str) -> list[UUID]:
+    parts = [x for x in re.split(r"[\s,;]+", raw.strip()) if x]
+    if len(parts) > MAX_IDS:
+        raise HTTPException(422, f"Слишком много id (максимум {MAX_IDS})")
+    try:
+        return [UUID(x) for x in parts]
+    except ValueError as e:
+        raise HTTPException(422, f"Некорректный transaction_id: {e}") from e
+
+
+@router.get(f"{API_PREFIX}/transactions")
+def list_transactions(
+    mode: Literal["review", "decided"] = "review",
+    ids: str | None = Query(None, description="transaction_id через запятую/пробел/перенос строки"),
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
 ):
-    raw = {
-        "step": step, "customer": customer, "age": age, "gender": gender,
-        "merchant": merchant, "category": category, "amount": amount,
-    }
+    where = [_MODE_WHERE[mode]]
+    params: dict[str, Any] = {"limit": limit, "offset": offset}
 
+    if ids and ids.strip():
+        params["ids"] = _parse_ids(ids)
+        where.append("t.transaction_id = ANY(%(ids)s)")
+
+    where_sql = " WHERE " + " AND ".join(where)
+    order_sql = " ORDER BY p.score DESC, t.transaction_id"
+
+    with _db(dict_row) as conn:
+        total = conn.execute("SELECT count(*) AS n" + _FROM + where_sql, params).fetchone()["n"]
+        rows = conn.execute(
+            _SELECT + _FROM + where_sql + order_sql + " LIMIT %(limit)s OFFSET %(offset)s", params
+        ).fetchall()
+
+    for row in rows:
+        feats = row.get("features") or {}
+        row["features"] = {k: v for k, v in feats.items() if k not in TX_FIELDS}
+        row["features_error"] = None
+
+    return _clean({"total": total, "offset": offset, "limit": limit, "items": rows})
+
+
+@router.get(API_PREFIX + "/transactions/{transaction_id}/shap")
+def get_shap(transaction_id: UUID):
     try:
-        Features(**raw)
-    except ValidationError as exc:
-        return templates.TemplateResponse(
-            request=request,
-            name="scoring.html",
-            context={
-                "single_result": None,
-                "batch_result": None,
-                "error": f"Некорректные данные: {exc.errors()[0]['msg']}"
-            }
+        with _db(dict_row) as conn:
+            row = conn.execute(
+                f"SELECT {SHAP_COLUMN} AS shap FROM {SHAP_TABLE} WHERE transaction_id = %s",
+                (transaction_id,),
+            ).fetchone()
+    except psycopg.errors.UndefinedTable:
+        raise HTTPException(501, f"Таблица {SHAP_TABLE} пока не создана") from None
+
+    if row is None or not row["shap"]:
+        raise HTTPException(404, "SHAP для этой транзакции не найден")
+
+    items = [{"feature": k, "value": v} for k, v in row["shap"].items()]
+    items.sort(key=lambda x: abs(x["value"] or 0), reverse=True)
+    return _clean({"transaction_id": transaction_id, "items": items})
+
+
+class DecisionIn(BaseModel):
+    decision: Literal["ALLOW", "BLOCK"]
+
+
+@router.post(API_PREFIX + "/transactions/{transaction_id}/decision")
+def set_decision(transaction_id: UUID, body: DecisionIn):
+    fraud = body.decision == "BLOCK"
+    with _db(dict_row) as conn:
+        exists = conn.execute(
+            "SELECT 1 FROM transactions WHERE transaction_id = %s", (transaction_id,)
+        ).fetchone()
+        if exists is None:
+            raise HTTPException(404, "Транзакция не найдена")
+
+        cur = conn.execute(
+            "UPDATE predictions SET in_review_queue = false "
+            "WHERE transaction_id = %s AND in_review_queue IS TRUE",
+            (transaction_id,),
         )
+        left_queue = cur.rowcount > 0
 
-    t0 = time.perf_counter()
-    frame, enriched_rows = _final_frame(request, [raw])
-    
-    model = request.app.state.model
-    threshold_b = request.app.state.meta["threshold"]
-    top_n = request.app.state.explainer_top_n
+        label = conn.execute(
+            """
+            INSERT INTO fraud_labels (transaction_id, fraud, fraud_type)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (transaction_id)
+            DO UPDATE SET fraud = EXCLUDED.fraud, label_received_at = now()
+            RETURNING fraud, label_received_at
+            """,
+            (transaction_id, fraud, "ANALYST"),
+        ).fetchone()
 
-    
-    score = float(model.predict_proba(frame)[0, 1])
-    cls, decision, css_class = decide(score, threshold_b)
-
-    reasons = request.app.state.explainer.explain(frame, top_n=top_n)[0]
-    reasons_fmt = [(feature_label(name), value) for name, value in reasons]
-
-    final_features = {
-        feature_label(k): v for k, v in enriched_rows[0].items()
-        if k in request.app.state.meta["features"]
-    }
-
-    latency_ms = round((time.perf_counter() - t0) * 1000, 2)
-
-    single_result = {
-        "score": score,
-        "cls": cls,
-        "decision": decision,
-        "css_class": css_class,
-        "threshold_a": MANUAL_REVIEW_THRESHOLD_A,
-        "threshold_b": threshold_b,
-        "reasons": reasons_fmt,
-        "final_features": final_features,
-        "latency_ms": latency_ms,
-    }
-
-    return templates.TemplateResponse(
-        request=request,
-        name="scoring.html",
-        context={
-            "single_result": single_result,
-            "batch_result": None,
-            "error": None
-        },
+    return _clean(
+        {
+            "transaction_id": transaction_id,
+            "decision": body.decision,
+            "manual_fraud": label["fraud"],
+            "label_received_at": label["label_received_at"],
+            "left_review_queue": left_queue,
+        }
     )
-
-
-@router.post("/ui/score/batch", response_class=HTMLResponse)
-async def score_batch(request: Request, file: UploadFile = File(...)):
-    content = await file.read()
-
-    try:
-        raw_df = pd.read_csv(io.BytesIO(content), dtype={"age": str, "gender": str})
-    except Exception as exc:
-        return templates.TemplateResponse(
-            "scoring.html",
-            {"request": request, "single_result": None, "batch_result": None,
-             "error": f"Не удалось прочитать CSV: {exc}"},
-        )
-
-    missing = [c for c in RAW_BATCH_COLUMNS if c not in raw_df.columns]
-    if missing:
-        return templates.TemplateResponse(
-            "scoring.html",
-            {"request": request, "single_result": None, "batch_result": None,
-             "error": f"В CSV не хватает колонок: {', '.join(missing)}"},
-        )
-
-    rows = raw_df[RAW_BATCH_COLUMNS].to_dict("records")
-    frame, enriched_rows = _final_frame(request, rows)
-
-    model = request.app.state.pipeline
-    threshold_b = request.app.state.meta["threshold"]
-    top_n = request.app.state.explainer_top_n
-
-    scores = float(model.predict_proba(frame)[:, 1])
-    reasons_per_row = request.app.state.explainer.explain(frame, top_n=top_n)
-
-    decisions, classes, reasons_fmt = [], [], []
-    for score, reasons in zip(scores, reasons_per_row, strict=True):
-        cls, decision, _ = decide(float(score), threshold_b)
-        classes.append(cls)
-        decisions.append(decision)
-        reasons_fmt.append(
-            request.app.state.explainer.format_reasons(reasons)
-        )
-
-    result_df = raw_df.copy()
-    result_df["p_fraud"] = scores
-    result_df["class"] = classes
-    result_df["decision"] = decisions
-    result_df["reasons"] = reasons_fmt
-
-    uploads_dir = Path(getattr(settings, "uploads_dir", "uploads"))
-    uploads_dir.mkdir(parents=True, exist_ok=True)
-    out_name = f"predictions_{datetime.now():%Y%m%d_%H%M%S}.csv"
-    out_path = uploads_dir / out_name
-    result_df.to_csv(out_path, index=False)
-
-    counts = result_df["decision"].value_counts()
-
-    batch_result = {
-        "total": len(result_df),
-        "block": int(counts.get("ЗАБЛОКИРОВАТЬ", 0)),
-        "approve": int(counts.get("ПРОПУСТИТЬ", 0)),
-        "review": int(counts.get("НА РУЧНУЮ ПРОВЕРКУ", 0)),
-        "saved_path": str(out_path),
-        "rows": result_df.head(50).to_dict("records"),
-    }
-
-    return templates.TemplateResponse(
-            request=request,
-            name="scoring.html",
-            context={
-                "single_result": None,
-                "batch_result": batch_result,
-                "error": None
-            },
-        )

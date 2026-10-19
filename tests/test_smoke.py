@@ -22,11 +22,11 @@ def test_predict_response_types(client, good_row):
     assert isinstance(body["score"], float)
     assert isinstance(body["decision"], str)
     assert isinstance(body["model_version"], str)
-    assert isinstance(body["request_id"], str)
+    assert isinstance(body["transaction_id"], str)
     assert isinstance(body["latency_ms"], float)
 
-def test_predict_returns_unique_request_id(client, good_row):
+def test_predict_returns_unique_transaction_id(client, good_row):
     r1 = client.post("/v1/predict", json=good_row).json()
     r2 = client.post("/v1/predict", json=good_row).json()
 
-    assert r1["request_id"] != r2["request_id"]
+    assert r1["transaction_id"] != r2["transaction_id"]

@@ -17,7 +17,7 @@ from antifraud.config import settings
 from antifraud.service.explain import Explainer
 from antifraud.service.make_decision import decide
 from antifraud.service.models import BatchFeatures, Features, Prediction
-from antifraud.service.preprocessing import FeatureBuilder, LateTransactionError
+from antifraud.service.preprocessing import FeatureBuilder
 from antifraud.service.web import router as web_router
 
 
@@ -51,43 +51,19 @@ def _safe_payload(body) -> dict:
     return {"raw": str(body)[:2000]}
 
 
-@app.exception_handler(LateTransactionError)
-async def late_transaction_handler(request: Request, exc: LateTransactionError):
-    request_id = str(uuid.uuid4())
-
-    body = await request.json()
-
-    response = JSONResponse(
-        status_code=422,
-        content={"detail": str(exc), "request_id": request_id},
-        headers={"X-Request-ID": request_id},
-    )
-
-    response.background = BackgroundTask(
-        db.save_prediction,
-        request_id,
-        getattr(app.state, "version", "unknown"),
-        _safe_payload(body),
-        None,
-        None,
-        None,
-        409,
-    )
-    return response
-
-
 @app.exception_handler(RequestValidationError)
 async def validation_error_handler(request: Request, exc: RequestValidationError):
-    request_id = str(uuid.uuid4())
+    transaction_id = str(uuid.uuid4())
 
     response = await request_validation_exception_handler(request, exc)
-    response.headers["X-Request-ID"] = request_id
+    response.headers["X-Transaction-ID"] = transaction_id
 
     response.background = BackgroundTask(
         db.save_prediction,
-        request_id,
+        transaction_id,
         getattr(app.state, "version", "unknown"),
         _safe_payload(exc.body),
+        None,
         None,
         None,
         None,
@@ -101,13 +77,17 @@ async def unhandled_error_middleware(request: Request, call_next):
     try:
         return await call_next(request)
     except Exception:
-        request_id = str(uuid.uuid4())
-        logger.exception("Unhandled error, request_id=%s path=%s", request_id, request.url.path)
+        transaction_id = str(uuid.uuid4())
+        logger.exception(
+            "Unhandled error, transaction_id=%s path=%s",
+            transaction_id,
+            request.url.path
+        )
 
         response = JSONResponse(
             status_code=500,
-            content={"detail": "Internal server error", "request_id": request_id},
-            headers={"X-Request-ID": request_id},
+            content={"detail": "Internal server error", "transaction_id": transaction_id},
+            headers={"X-Transaction-ID": transaction_id},
         )
 
 
@@ -119,9 +99,10 @@ async def unhandled_error_middleware(request: Request, call_next):
                 body = raw if "raw" in locals() else b""
             response.background = BackgroundTask(
                 db.save_prediction,
-                request_id,
+                transaction_id,
                 getattr(app.state, "version", "unknown"),
                 _safe_payload(body),
+                None,
                 None,
                 None,
                 None,
@@ -143,39 +124,70 @@ def ready():
     return {"status": "ready"}
 
 
+def log_shap(explainer, frame, transaction_ids, model_version, top_n):
+    try:
+        pairs = explainer.explain(frame, top_n=top_n)
+        db.save_shap(
+            transaction_ids,
+            [{name: float(v) for name, v in row} for row in pairs],
+            model_version,
+        )
+    except Exception:
+        logger.exception("shap logging failed")
+
+
 @app.post("/v1/predict")
 def predict(x: Features, bg: BackgroundTasks) -> Prediction:
     t0 = time.perf_counter()
-    request_id = str(uuid.uuid4())
-    
-    payload = app.state.features.build([x.model_dump()])[0]
-    frame = pd.DataFrame([payload]).reindex(columns=app.state.meta["features"])
+    transaction_id = str(uuid.uuid4())
+
+    row = x.model_dump()
+    row["transaction_id"] = transaction_id
+    payloads = app.state.features.build([row])
+    frame = pd.DataFrame(payloads)
+    frame = frame.drop("transaction_id", axis=1).reindex(columns=app.state.meta["features"])
 
     model = app.state.model
     threshold_b = app.state.meta["threshold"]
-    # top_n = app.state.explainer_top_n
+    top_n = app.state.explainer_top_n
 
     score = float(model.predict_proba(frame)[0, 1])
-    cls, _, _ = decide(score, threshold_b)
+    decision = decide(score, threshold_b)
 
     latency_ms = round((time.perf_counter() - t0) * 1000, 2)
 
     bg.add_task(
         db.save_prediction,
-        request_id,
+        transaction_id,
         app.state.version,
-        payload,
+        payloads[0],
         score,
-        cls,
+        decision,
+        True if decision == "REVIEW" else None,
         latency_ms,
         200
     )
 
+    bg.add_task(
+        log_shap,
+        app.state.explainer,
+        frame.copy(),
+        [transaction_id],
+        app.state.version,
+        top_n
+    )
+
+    bg.add_task(
+        db.save_fraud_label,
+        transaction_id=transaction_id,
+        fraud=decision
+    )
+
     return Prediction(
         score=score,
-        decision=cls,
+        decision=decision,
         model_version=app.state.version,
-        request_id=request_id,
+        transaction_id=transaction_id,
         latency_ms=latency_ms
     )
 
@@ -184,43 +196,64 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
 def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
     t0 = time.perf_counter()
 
-    payloads = app.state.features.build([row.model_dump() for row in x.rows])
+    rows = []
+    ids = []
+    for row in x.rows:
+        transaction_id = str(uuid.uuid4())
+        ids.append(transaction_id)
+        
+        row = row.model_dump()
+        row["transaction_id"] = transaction_id
+        rows.append(row)
 
-    frame = (
-        pd.DataFrame(payloads)
-        .reindex(columns=app.state.meta["features"])
-    )
+    payloads = app.state.features.build(rows)
+    frame = pd.DataFrame(payloads)
+    frame = frame.drop("transaction_id", axis=1).reindex(columns=app.state.meta["features"])
 
     model = app.state.model
     threshold_b = app.state.meta["threshold"]
-    # top_n = app.state.explainer_top_n
+    top_n = app.state.explainer_top_n
 
     scores = model.predict_proba(frame)[:, 1]
     latency_ms = round((time.perf_counter() - t0) * 1000, 2)
 
     results = []
-
-    for payload, score in zip(payloads, scores, strict=True):
-        request_id = str(uuid.uuid4())
+    for transaction_id, payload, f_row, score in zip(ids, payloads, frame, scores, strict=True):
         score = float(score)
-        cls, _, _ = decide(score, threshold_b)
+        decision = decide(score, threshold_b)
         bg.add_task(
             db.save_prediction,
-            request_id,
+            transaction_id,
             app.state.version,
             payload,
             score,
-            cls,
+            decision,
+            True if decision == "REVIEW" else None,
             latency_ms,
             200
+        )
+
+        bg.add_task(
+            log_shap,
+            app.state.explainer,
+            f_row.copy(),
+            [transaction_id],
+            app.state.version,
+            top_n
+        )
+
+        bg.add_task(
+            db.save_fraud_label,
+            transaction_id=transaction_id,
+            fraud=decision
         )
 
         results.append(
             Prediction(
                 score=score,
-                decision=cls,
+                decision=decision,
                 model_version=app.state.version,
-                request_id=request_id,
+                request_id=transaction_id,
                 latency_ms=latency_ms,
             )
         )

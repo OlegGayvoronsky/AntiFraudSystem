@@ -2,214 +2,344 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>Антифрод — скоринг</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anti-Fraud — рабочее окно</title>
 <style>
   :root {
-    --accent: #1b7a6d;
-    --accent-dark: #156358;
-    --border: #e2e5e9;
-    --text: #1f2328;
-    --muted: #6b7280;
-    --bg: #f7f8fa;
-    --danger: #b3261e;
-    --warn: #9a6b00;
-    --ok: #1b7a6d;
+    --bg: #f6f7f9; --card: #fff; --text: #1c2330; --muted: #6b7587; --line: #e3e6ec;
+    --accent: #2f5bea; --allow: #1f9d55; --block: #d6393a; --review: #c78a05;
+    --allow-bg: #e3f6ea; --block-bg: #fde8e8; --review-bg: #fff3d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --card: #1b2029; --text: #e6e9ef; --muted: #94a0b4; --line: #2b3240;
+      --accent: #6f8cff; --allow-bg: #17382a; --block-bg: #43201f; --review-bg: #40340f;
+    }
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 32px 24px 64px;
-    background: var(--bg);
-    color: var(--text);
-    font: 14px/1.5 -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  }
-  .wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-  .card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 24px;
-  }
-  .card h2 { margin: 0 0 16px; font-size: 16px; font-weight: 700; }
-  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 16px; }
-  .field label {
-    display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px;
-  }
-  .field input, .field select {
-    width: 100%; padding: 8px 10px; border: 1px solid var(--border);
-    border-radius: 6px; font-size: 14px; background: #fff; color: var(--text);
-  }
-  .btn {
-    display: inline-block; border: none; border-radius: 6px; padding: 10px 18px;
-    background: var(--accent); color: #fff; font-size: 14px; font-weight: 600;
-    cursor: pointer;
-  }
-  .btn:hover { background: var(--accent-dark); }
-  .btn-row { margin-top: 16px; }
-  .hint { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
-  .chip {
-    display: inline-block; background: #eef1f0; border-radius: 4px;
-    padding: 1px 6px; font-size: 12px; color: var(--text);
-  }
-  .file-row { display: flex; gap: 12px; align-items: center; }
-  .file-row input[type=file] { flex: 1; }
-  .error {
-    border-radius: 8px; background: #fdeeee; border: 1px solid #f3c6c4;
-    color: var(--danger); padding: 10px 14px; font-size: 13px;
-  }
-  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .metric { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
-  .metric .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .metric .value { font-size: 20px; font-weight: 700; }
-  .badge { font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 5px; }
-  .badge.fraud { background: #fdeeee; color: var(--danger); }
-  .badge.review { background: #fdf4e0; color: var(--warn); }
-  .badge.not-fraud { background: #e9f5f2; color: var(--ok); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; font-size: 12px; }
-  .reasons-note { font-size: 13px; margin: 4px 0 10px; }
-  .reasons-list { margin: 0; padding-left: 18px; }
-  .reasons-list li { margin-bottom: 4px; }
-  .pos { color: var(--danger); }
-  .neg { color: var(--ok); }
-  .kv-table td:first-child { color: var(--muted); width: 55%; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  h1 { font-size: 20px; margin: 0 0 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; }
+  .tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+  .tabs button { border: 0; background: var(--card); color: var(--text); padding: 8px 16px; cursor: pointer; font: inherit; }
+  .tabs button.active { background: var(--accent); color: #fff; }
+  .filters { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+  .filters fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 0; }
+  .filters legend { color: var(--muted); font-size: 12px; padding: 0 4px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  label.opt { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+  input[type=number], select, textarea {
+    background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; font: inherit; }
+  input[type=number] { width: 80px; }
+  textarea { width: 340px; height: 56px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; resize: vertical; }
+  button.btn { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 8px 16px; font: inherit; cursor: pointer; }
+  button.btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  button.btn:disabled { opacity: .5; cursor: default; }
+  .hidden { display: none !important; }
+  #status { color: var(--muted); margin: 0 0 8px; min-height: 20px; }
+  #status.error { color: var(--block); }
+  .table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; white-space: nowrap; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; position: sticky; top: 0; background: var(--card); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.main { cursor: pointer; }
+  tr.main:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+  tr.main.open { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  td.chev { width: 24px; color: var(--muted); }
+  .mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .badge.ALLOW { color: var(--allow); background: var(--allow-bg); }
+  .badge.BLOCK { color: var(--block); background: var(--block-bg); }
+  .badge.REVIEW { color: var(--review); background: var(--review-bg); }
+  .act { display: inline-flex; gap: 6px; }
+  .act button { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 6px; padding: 3px 10px; cursor: pointer; font: inherit; font-size: 12px; }
+  .act button.ALLOW:hover, .act button.ALLOW.on { background: var(--allow); border-color: var(--allow); color: #fff; }
+  .act button.BLOCK:hover, .act button.BLOCK.on { background: var(--block); border-color: var(--block); color: #fff; }
+  .act button:disabled { opacity: .5; cursor: default; }
+  tr.detail > td { background: color-mix(in srgb, var(--bg) 70%, var(--card)); white-space: normal; }
+  .panels { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(320px, 1fr); gap: 24px; }
+  @media (max-width: 800px) { .panels { grid-template-columns: 1fr; } }
+  .panels h3 { margin: 0 0 8px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 3px 16px; max-height: 340px; overflow: auto; }
+  .kv span:nth-child(odd) { color: var(--muted); }
+  .kv span:nth-child(even) { font-variant-numeric: tabular-nums; }
+  .shap { max-height: 340px; overflow: auto; }
+  .shap-row { display: grid; grid-template-columns: 180px 1fr 70px; gap: 8px; align-items: center; padding: 2px 0; }
+  .shap-name { overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { position: relative; height: 10px; }
+  .bar-track::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--line); }
+  .bar { position: absolute; top: 1px; height: 8px; border-radius: 2px; }
+  .bar.pos { left: 50%; background: var(--block); }
+  .bar.neg { right: 50%; background: var(--allow); }
+  .muted { color: var(--muted); }
+  .footer { display: flex; justify-content: center; padding: 14px; }
 </style>
 </head>
 <body>
-<div class="wrap">
+<main>
+  <h1>Anti-Fraud · рабочее окно</h1>
 
-  <div class="card">
-    <h2>Ручной скоринг транзакции</h2>
-    <form method="post" action="/ui/score">
-      <div class="grid">
-        <div class="field"><label>Step</label><input type="number" name="step" min="0" required></div>
-        <div class="field"><label>Customer</label><input type="text" name="customer" required></div>
-        <div class="field"><label>Age</label>
-          <select name="age">
-            <option>0</option><option>1</option><option>2</option><option>3</option>
-            <option>4</option><option>5</option><option>6</option><option>U</option>
-          </select>
-        </div>
-        <div class="field"><label>Gender</label>
-          <select name="gender">
-            <option>M</option><option>F</option><option>E</option><option>U</option>
-          </select>
-        </div>
-        <div class="field"><label>Merchant</label><input type="text" name="merchant" required></div>
-        <div class="field"><label>Category</label>
-          <select name="category">
-            <option>es_transportation</option><option>es_food</option><option>es_health</option>
-            <option>es_wellnessandbeauty</option><option>es_fashion</option><option>es_barsandrestaurants</option>
-            <option>es_hyper</option><option>es_sportsandtoys</option><option>es_tech</option>
-            <option>es_home</option><option>es_hotelservices</option><option>es_otherservices</option>
-            <option>es_contents</option><option>es_travel</option><option>es_leisure</option>
-          </select>
-        </div>
-        <div class="field"><label>Amount</label><input type="number" step="0.01" min="0" name="amount" required></div>
-      </div>
-      <div class="btn-row"><button class="btn" type="submit">Рассчитать риск</button></div>
-    </form>
+  <div class="tabs" id="tabs">
+    <button data-mode="review" class="active">Проверка транзакций из review очереди</button>
+    <button data-mode="decided">Пересмотр решения автоматической системы (аудит)</button>
   </div>
 
   <div class="card">
-    <h2>Batch-скоринг транзакций</h2>
-    <form method="post" action="/ui/score/batch" enctype="multipart/form-data">
-      <div class="file-row">
-        <input type="file" name="file" accept=".csv" required>
-        <button class="btn" type="submit">Загрузить и рассчитать</button>
-      </div>
-      <div class="hint">
-        CSV должен содержать колонки:
-        <span class="chip">step</span> <span class="chip">customer</span> <span class="chip">age</span>
-        <span class="chip">gender</span> <span class="chip">merchant</span> <span class="chip">category</span>
-        <span class="chip">amount</span>.
-        После загрузки на странице появится таблица первых 50 строк, а полный результат сохранится в папку uploads.
-      </div>
-    </form>
-  </div>
-
-  {% if error %}
-  <div class="card"><div class="error">{{ error }}</div></div>
-  {% endif %}
-
-  {% if single_result %}
-  <div class="card">
-    <h2>Результат скоринга</h2>
-    <div class="metrics">
-      <div class="metric">
-        <div class="label">Вероятность фрода</div>
-        <div class="value">{{ "%.1f"|format(single_result.score * 100) }}%</div>
-      </div>
-      <div class="metric">
-        <div class="label">Пороги a / b</div>
-        <div class="value" style="font-size:16px;">
-          {{ "%.1f"|format(single_result.threshold_a * 100) }}% / {{ "%.1f"|format(single_result.threshold_b * 100) }}%
+    <div class="filters">
+      <fieldset>
+        <legend>Какие транзакции загрузить</legend>
+        <div class="row">
+          <label class="opt"><input type="radio" name="scope" value="all" checked> все</label>
+          <label class="opt"><input type="radio" name="scope" value="ids"> из списка</label>
         </div>
-      </div>
-      <div class="metric">
-        <div class="label">Класс</div>
-        <div class="value"><span class="badge {{ single_result.css_class }}">{{ single_result.cls }}</span></div>
-      </div>
-      <div class="metric">
-        <div class="label">Решение</div>
-        <div class="value" style="font-size:16px;">{{ single_result.decision }}</div>
-      </div>
+        <div class="row hidden" id="scope-ids" style="margin-top:8px">
+          <textarea id="ids" placeholder="transaction_id через запятую, пробел или с новой строки"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Размер страницы</legend>
+        <select id="limit">
+          <option>25</option><option selected>50</option><option>100</option><option>200</option>
+        </select>
+      </fieldset>
+
+      <button class="btn" id="load">Загрузить</button>
     </div>
-
-    <h2 style="margin-top:20px;">Основные причины</h2>
-    <div class="reasons-note">Положительный вклад повышает риск фрода, отрицательный — снижает.</div>
-    <ul class="reasons-list">
-      {% for name, value in single_result.reasons %}
-      <li>{{ name }}: <span class="{{ 'pos' if value > 0 else 'neg' }}">{{ "%+.3f"|format(value) }}</span></li>
-      {% endfor %}
-    </ul>
-
-    <h2 style="margin-top:20px;">Итоговые признаки</h2>
-    <table class="kv-table">
-      {% for name, value in single_result.final_features.items() %}
-      <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
-      {% endfor %}
-    </table>
-    <div class="hint">Время расчёта: {{ single_result.latency_ms }} мс</div>
   </div>
-  {% endif %}
 
-  {% if batch_result %}
-  <div class="card">
-    <h2>Batch-результат</h2>
-    <div class="metrics">
-      <div class="metric"><div class="label">Всего строк</div><div class="value">{{ batch_result.total }}</div></div>
-      <div class="metric"><div class="label">Заблокировано</div><div class="value">{{ batch_result.block }}</div></div>
-      <div class="metric"><div class="label">Пропущено</div><div class="value">{{ batch_result.approve }}</div></div>
-      <div class="metric"><div class="label">На ручную проверку</div><div class="value">{{ batch_result.review }}</div></div>
-    </div>
-    <div class="hint">Полный результат сохранён: {{ batch_result.saved_path }}</div>
+  <p id="status"></p>
 
-    <table style="margin-top:14px;">
+  <div class="table-wrap">
+    <table>
       <thead>
         <tr>
-          <th>Customer</th><th>Merchant</th><th>Amount</th>
-          <th>P(fraud)</th><th>Класс</th><th>Решение</th><th>Основные причины</th>
+          <th></th><th>transaction_id</th><th class="num">step</th><th>customer</th><th>merchant</th>
+          <th>age</th><th>gender</th><th>category</th><th class="num">amount</th>
+          <th class="num">score</th><th>decision</th><th>ручная метка</th><th>действие</th>
         </tr>
       </thead>
-      <tbody>
-        {% for row in batch_result.rows %}
-        <tr>
-          <td>{{ row.customer }}</td>
-          <td>{{ row.merchant }}</td>
-          <td>{{ row.amount }}</td>
-          <td>{{ "%.1f"|format(row.p_fraud * 100) }}%</td>
-          <td>{{ row["class"] }}</td>
-          <td>{{ row.decision }}</td>
-          <td>{{ row.reasons }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
+      <tbody id="tbody"></tbody>
     </table>
   </div>
-  {% endif %}
+  <div class="footer"><button class="btn secondary hidden" id="more">Загрузить ещё</button></div>
+</main>
 
-</div>
+<script>
+const API = "{{ api }}";
+const state = { mode: "review", offset: 0, total: 0, shown: 0, loading: false };
+
+const $ = (s) => document.querySelector(s);
+const tbody = $("#tbody");
+
+function h(tag, props = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c);
+  return e;
+}
+
+function fmt(v) {
+  if (v === null || v === undefined) return "—";
+  if (typeof v === "number") return Number.isInteger(v) ? String(v) : v.toFixed(4);
+  if (typeof v === "boolean") return v ? "true" : "false";
+  if (typeof v === "object") return JSON.stringify(v);
+  return String(v);
+}
+
+function setStatus(msg, isError = false) {
+  const s = $("#status");
+  s.textContent = msg;
+  s.className = isError ? "error" : "";
+}
+
+async function errText(r) {
+  try {
+    const j = await r.json();
+    return typeof j.detail === "string" ? j.detail : JSON.stringify(j.detail);
+  } catch { return "HTTP " + r.status; }
+}
+
+function updateCounters() {
+  setStatus(state.total ? `Показано ${state.shown} из ${state.total}` : "Ничего не найдено");
+  $("#more").classList.toggle("hidden", state.shown >= state.total);
+}
+
+// ---------- режим / фильтры ----------
+$("#tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-mode]");
+  if (!b || b.dataset.mode === state.mode) return;
+  state.mode = b.dataset.mode;
+  document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("active", x === b));
+  clearTable();
+  setStatus("Режим переключён. Нажмите «Загрузить».");
+});
+
+document.querySelectorAll("input[name=scope]").forEach((r) =>
+  r.addEventListener("change", () => {
+    const v = document.querySelector("input[name=scope]:checked").value;
+    $("#scope-ids").classList.toggle("hidden", v !== "ids");
+  })
+);
+
+function clearTable() {
+  tbody.replaceChildren();
+  state.offset = 0; state.total = 0; state.shown = 0;
+  $("#more").classList.add("hidden");
+}
+
+// ---------- загрузка ----------
+async function load(reset) {
+  if (state.loading) return;
+  state.loading = true;
+  $("#load").disabled = true; $("#more").disabled = true;
+  setStatus("Загрузка…");
+  if (reset) clearTable();
+
+  const p = new URLSearchParams({ mode: state.mode, limit: $("#limit").value, offset: state.offset });
+  const scope = document.querySelector("input[name=scope]:checked").value;
+  if (scope === "ids") p.set("ids", $("#ids").value);
+
+  try {
+    const r = await fetch(`${API}/transactions?${p}`);
+    if (!r.ok) throw new Error(await errText(r));
+    const data = await r.json();
+    state.total = data.total;
+    data.items.forEach(addRow);
+    state.offset += data.items.length;
+    state.shown += data.items.length;
+    updateCounters();
+  } catch (e) {
+    setStatus("Ошибка: " + e.message, true);
+  } finally {
+    state.loading = false;
+    $("#load").disabled = false; $("#more").disabled = false;
+  }
+}
+$("#load").addEventListener("click", () => load(true));
+$("#more").addEventListener("click", () => load(false));
+
+// ---------- строки ----------
+function badge(d) { return d ? h("span", { class: "badge " + String(d).toUpperCase() }, String(d).toUpperCase()) : "—"; }
+
+function manualCell(fraud) {
+  if (fraud === null || fraud === undefined) return h("span", { class: "muted" }, "—");
+  return badge(fraud ? "BLOCK" : "ALLOW");
+}
+
+function addRow(it) {
+  const colspan = 13;
+  const manualTd = h("td", {}, manualCell(it.manual_fraud));
+  const btnAllow = h("button", { class: "ALLOW" + (it.manual_fraud === false ? " on" : ""), onclick: (e) => decide(e, "ALLOW") }, "ALLOW");
+  const btnBlock = h("button", { class: "BLOCK" + (it.manual_fraud === true ? " on" : ""), onclick: (e) => decide(e, "BLOCK") }, "BLOCK");
+  const chev = h("td", { class: "chev" }, "▸");
+
+  const main = h("tr", { class: "main", onclick: toggle },
+    chev,
+    h("td", { class: "mono", title: it.transaction_id }, it.transaction_id.slice(0, 8) + "…"),
+    h("td", { class: "num" }, fmt(it.step)),
+    h("td", {}, it.customer), h("td", {}, it.merchant),
+    h("td", {}, it.age), h("td", {}, it.gender), h("td", {}, it.category),
+    h("td", { class: "num" }, Number(it.amount).toFixed(2)),
+    h("td", { class: "num" }, it.score === null ? "—" : Number(it.score).toFixed(4)),
+    h("td", {}, badge(it.decision)),
+    manualTd,
+    h("td", {}, h("span", { class: "act" }, btnAllow, btnBlock))
+  );
+  const detailBody = h("td", { colspan });
+  const detail = h("tr", { class: "detail hidden" }, detailBody);
+  let rendered = false;
+
+  function toggle(e) {
+    if (e && e.target.closest(".act")) return;
+    const open = detail.classList.toggle("hidden") === false;
+    main.classList.toggle("open", open);
+    chev.textContent = open ? "▾" : "▸";
+    if (open && !rendered) { rendered = true; renderDetail(it, detailBody); }
+  }
+
+  async function decide(e, decision) {
+    e.stopPropagation();
+    btnAllow.disabled = btnBlock.disabled = true;
+    try {
+      const r = await fetch(`${API}/transactions/${it.transaction_id}/decision`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ decision }),
+      });
+      if (!r.ok) throw new Error(await errText(r));
+      const res = await r.json();
+      if (state.mode === "review") {
+        // решение принято — строка уходит из очереди
+        main.remove(); detail.remove();
+        state.total = Math.max(0, state.total - 1);
+        state.shown = Math.max(0, state.shown - 1);
+        state.offset = Math.max(0, state.offset - 1);  // выборка сместилась вверх
+        updateCounters();
+        setStatus(`${decision}: ${it.transaction_id.slice(0, 8)}… убрана из очереди. ` + $("#status").textContent);
+      } else {
+        manualTd.replaceChildren(manualCell(res.manual_fraud));
+        btnAllow.classList.toggle("on", decision === "ALLOW");
+        btnBlock.classList.toggle("on", decision === "BLOCK");
+        btnAllow.disabled = btnBlock.disabled = false;
+      }
+    } catch (err) {
+      setStatus("Ошибка: " + err.message, true);
+      btnAllow.disabled = btnBlock.disabled = false;
+    }
+  }
+
+  tbody.append(main, detail);
+}
+
+// ---------- раскрытая строка: признаки + SHAP ----------
+function renderDetail(it, root) {
+  const featBox = h("div", { class: "kv" });
+  if (it.features) {
+    const keys = Object.keys(it.features).sort();
+    if (!keys.length) featBox.replaceWith();
+    keys.forEach((k) => featBox.append(h("span", {}, k), h("span", {}, fmt(it.features[k]))));
+  } else {
+    featBox.append(h("span", { class: "muted", style: "grid-column:1/-1" },
+      it.features_error ? "Не удалось построить признаки: " + it.features_error : "Признаки не загружены"));
+  }
+  const meta = h("div", { class: "muted", style: "margin-top:8px" },
+    `model: ${it.model_version ?? "—"} · scored_at: ${it.scored_at ?? "—"} · received_at: ${it.received_at ?? "—"}`);
+
+  const shapBox = h("div", { class: "shap" }, h("span", { class: "muted" }, "Загрузка SHAP…"));
+  root.append(h("div", { class: "panels" },
+    h("div", {}, h("h3", {}, "Исторические признаки"), featBox, meta),
+    h("div", {}, h("h3", {}, "Вклад признаков (SHAP)"), shapBox)
+  ));
+  loadShap(it.transaction_id, shapBox);
+}
+
+async function loadShap(id, box) {
+  try {
+    const r = await fetch(`${API}/transactions/${id}/shap`);
+    if (!r.ok) throw new Error(await errText(r));
+    const data = await r.json();
+    const max = Math.max(...data.items.map((x) => Math.abs(x.value || 0)), 1e-12);
+    box.replaceChildren(...data.items.map((x) => {
+      const w = (Math.abs(x.value || 0) / max) * 50;  // % от ширины трека (половина — в одну сторону)
+      const bar = h("div", { class: "bar " + ((x.value || 0) >= 0 ? "pos" : "neg"), style: `width:${w}%` });
+      return h("div", { class: "shap-row" },
+        h("div", { class: "shap-name", title: x.feature }, x.feature),
+        h("div", { class: "bar-track" }, bar),
+        h("div", { class: "mono", style: "text-align:right" }, (x.value >= 0 ? "+" : "") + Number(x.value).toFixed(4))
+      );
+    }));
+  } catch (e) {
+    box.replaceChildren(h("span", { class: "muted" }, e.message));
+  }
+}
+</script>
 </body>
 </html>

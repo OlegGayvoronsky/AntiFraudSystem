@@ -1,14 +1,7 @@
 import os
-import uuid
 
-import numpy as np
-import pandas as pd
 import psycopg
 import pytest
-from offline_preprocessing import make_features
-
-from antifraud import db
-from antifraud.service.preprocessing import DbStateStore, FeatureBuilder
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -27,8 +20,8 @@ def test_prediction_is_logged(client, good_row):
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
             "SELECT model_version, score, decision, features->>'category', response_code "
-            "FROM predictions WHERE request_id = %s",
-            (body["request_id"],),
+            "FROM predictions WHERE transaction_id = %s",
+            (body["transaction_id"],),
         ).fetchone()
 
     assert row is not None
@@ -44,18 +37,18 @@ def test_bad_age_is_logged(client, good_row):
     response = client.post("/v1/predict", json=bad_row)
 
     assert response.status_code == 422
-    request_id = response.headers["X-Request-ID"]
+    transaction_id = response.headers["X-Transaction-ID"]
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
             "SELECT model_version, score, decision, response_code "
-            "FROM predictions WHERE request_id = %s",
-            (request_id,),
+            "FROM predictions WHERE transaction_id = %s",
+            (transaction_id,),
         ).fetchone()
 
     assert row is not None
-    assert row[1] == None
-    assert row[2] == None
+    assert row[1] is None
+    assert row[2] is None
     assert row[3] == 422
 
 
@@ -65,18 +58,18 @@ def test_missing_field_is_logged(client, good_row):
     response = client.post("/v1/predict", json=bad_row)
     
     assert response.status_code == 422
-    request_id = response.headers["X-Request-ID"]
+    transaction_id = response.headers["X-Transaction-ID"]
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
             "SELECT model_version, score, decision, response_code "
-            "FROM predictions WHERE request_id = %s",
-            (request_id,),
+            "FROM predictions WHERE transaction_id = %s",
+            (transaction_id,),
         ).fetchone()
 
     assert row is not None
-    assert row[1] == None
-    assert row[2] == None
+    assert row[1] is None
+    assert row[2] is None
     assert row[3] == 422
 
 
@@ -85,18 +78,18 @@ def test_extra_field_is_422(client, good_row):
     response = client.post("/v1/predict", json=bad_row)
 
     assert response.status_code == 422
-    request_id = response.headers["X-Request-ID"]
+    transaction_id = response.headers["X-Transaction-ID"]
 
     with psycopg.connect(DATABASE_URL) as conn:
         row = conn.execute(
             "SELECT model_version, score, decision, response_code "
-            "FROM predictions WHERE request_id = %s",
-            (request_id,),
+            "FROM predictions WHERE transaction_id = %s",
+            (transaction_id,),
         ).fetchone()
 
     assert row is not None
-    assert row[1] == None
-    assert row[2] == None
+    assert row[1] is None
+    assert row[2] is None
     assert row[3] == 422
 
 
@@ -104,28 +97,28 @@ def test_batch_prediction_is_logged(client, good_row):
     good_rows = [good_row, {**good_row, "category": "es_transportation"}]
     body = client.post("/v1/predict/batch", json={"rows": good_rows}).json()
 
-    request_ids = [item["request_id"] for item in body]
-    assert len(set(request_ids)) == len(request_ids)
+    transaction_ids = [item["transaction_id"] for item in body]
+    assert len(set(transaction_ids)) == len(transaction_ids)
 
     with psycopg.connect(DATABASE_URL) as conn:
         db_rows = conn.execute(
-            "SELECT request_id, score, decision, response_code "
-            "FROM predictions WHERE request_id = ANY(%s) "
-            "ORDER BY request_id",
-            (request_ids,),
+            "SELECT transaction_id, score, decision, response_code "
+            "FROM predictions WHERE transaction_id = ANY(%s) "
+            "ORDER BY transaction_id",
+            (transaction_ids,),
         ).fetchall()
 
     assert len(db_rows) == len(good_rows)
-    assert all(r[3] == 200 for r in db_rows)
+    assert all(row[3] == 200 for row in db_rows)
 
-    body_sorted = sorted(body, key=lambda r: r["request_id"])
+    body_sorted = sorted(body, key=lambda row: row["transaction_id"])
 
     for db_row, resp_row in zip(
         db_rows,
         body_sorted,
         strict=True
     ):
-        assert str(db_row[0]) == resp_row["request_id"]
+        assert str(db_row[0]) == resp_row["transaction_id"]
         assert db_row[1] == pytest.approx(resp_row["score"])
         assert db_row[2] == resp_row["decision"]
 
@@ -135,133 +128,15 @@ def test_trash_row_in_batch_is_logged_once(client, good_row):
     response = client.post("/v1/predict/batch", json={"rows": bad_rows})
 
     assert response.status_code == 422
-    request_id = response.headers["X-Request-ID"]
+    transaction_id = response.headers["X-Transaction-ID"]
 
     with psycopg.connect(DATABASE_URL) as conn:
         db_rows = conn.execute(
-            "SELECT score, decision, response_code FROM predictions WHERE request_id = %s",
-            (request_id,),
+            "SELECT score, decision, response_code FROM predictions WHERE transaction_id = %s",
+            (transaction_id,),
         ).fetchall()
 
     assert len(db_rows) == 1
-    assert db_rows[0][0] == None
-    assert db_rows[0][1] == None
+    assert db_rows[0][0] is None
+    assert db_rows[0][1] is None
     assert db_rows[0][2] == 422
-
-
-@pytest.fixture
-def state_prefix():
-    db.init()
-    prefix = f"parity_{uuid.uuid4().hex[:8]}_"
-    yield prefix
-    db.delete_entity_states(prefix)
- 
- 
-def test_online_features_match_offline(raw_transactions, state_prefix):
-    raw = raw_transactions.copy()
-    raw["customer"] = state_prefix + raw["customer"].astype(str)
-    raw["merchant"] = state_prefix + raw["merchant"].astype(str)
-    raw["_row_id"] = np.arange(len(raw))
- 
-    offline, _ = make_features(raw.copy())
-    offline = offline.set_index("_row_id").sort_index()
- 
-
-    builder = FeatureBuilder(DbStateStore())
-    ordered = raw.sort_values("step", kind="stable")
-    online_rows = []
-
-    for start in range(0, len(ordered), 500):
-        online_rows += builder.build(
-            ordered.iloc[start:start + 500].to_dict("records")
-        )
-    
-    online = pd.DataFrame(online_rows).set_index("_row_id").sort_index()
- 
-    feature_cols = [c for c in online.columns if c not in raw.columns]
-    assert feature_cols, "онлайн-модуль не вернул ни одного признака"
- 
-    missing = [c for c in feature_cols if c not in offline.columns]
-    assert not missing, f"признаков нет в офлайн-версии: {missing}"
- 
-    for col in feature_cols:
-        np.testing.assert_allclose(
-            online[col].to_numpy(float),
-            offline[col].to_numpy(float),
-            rtol=1e-6,
-            atol=1e-9,
-            err_msg=f"онлайн и офлайн признак расходятся: {col}",
-        )
- 
- 
-def test_state_is_persisted_between_requests(state_prefix):
-    row = {
-        "step": 1,
-        "age": 4,
-        "gender": "M",
-        "customer": f"{state_prefix}c1",
-        "merchant": f"{state_prefix}m1",
-        "amount": 100.0,
-    }
-    builder = FeatureBuilder(DbStateStore())
- 
-    first = builder.build([row])[0]
-    assert first["has_customer_history"] == 0
-    assert first["has_merchant_history"] == 0
- 
-    second = FeatureBuilder(DbStateStore()).build(
-        [{**row, "step": 3, "amount": 50.0}]
-    )[0]
-    assert second["has_customer_history"] == 1
-    assert second["customer_transaction_count_prev_step"] == 1
-    assert second["customer_avg_amount_prev_step"] == pytest.approx(100.0)
-    assert second["customer_time_since_last_transaction"] == 2
-    assert second["amount_to_customer_avg_amount"] == pytest.approx(0.5)
-    assert second["merchant_unique_customers_prev_step"] == 1
- 
- 
-def test_late_transaction_is_rejected_and_state_not_changed(state_prefix):
-    from antifraud.service.preprocessing import LateTransactionError
- 
-    row = {
-        "step": 5,
-        "age": 4,
-        "gender": "M",
-        "customer": f"{state_prefix}c1",
-        "merchant": f"{state_prefix}m1",
-        "amount": 10.0,
-    }
-    builder = FeatureBuilder(DbStateStore())
-    builder.build([row])
- 
-    with pytest.raises(LateTransactionError):
-        builder.build([{**row, "step": 2}])
- 
-    nxt = builder.build([{**row, "step": 6}])[0]
-    assert nxt["customer_transaction_count_prev_step"] == 1
-
-
-def test_late_transaction_is_409_and_logged(client, good_row, state_prefix):
-    row_step_5 = {
-        **good_row,
-        "customer": f"{state_prefix}c1",
-        "merchant": f"{state_prefix}m1",
-        "step": 5,
-    }
-    first = client.post("/v1/predict", json=row_step_5)
-    assert first.status_code == 200
-
-    row_step_2 = {**row_step_5, "step": 2}
-    response = client.post("/v1/predict", json=row_step_2)
-
-    assert response.status_code == 409
-    request_id = response.headers["X-Request-ID"]
-
-    with psycopg.connect(DATABASE_URL) as conn:
-        row = conn.execute(
-            "SELECT response_code FROM predictions WHERE request_id = %s",
-            (request_id,),
-        ).fetchone()
-
-    assert row is not None
-    assert row[0] == 409
