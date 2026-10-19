@@ -202,6 +202,7 @@ class FeatureBuilder:
             return feature_session.build(rows)
 
 
+
 def warm_start(builder: FeatureBuilder, history: pd.DataFrame, chunk: int = 20_000) -> None:
     """
     Загружает историю в transactions (без расчёта признаков). Идемпотентно:
@@ -236,3 +237,4 @@ def warm_start(builder: FeatureBuilder, history: pd.DataFrame, chunk: int = 20_0
             })
         with builder.store.session() as store:
             store.insert(rows)
+

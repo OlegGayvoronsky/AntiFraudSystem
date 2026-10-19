@@ -16,6 +16,7 @@ services:
       retries: 20
 
   warm-start:
+    profiles: ["init"]
     build: .
     command:
       - uv

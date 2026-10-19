@@ -22,7 +22,7 @@ def main() -> None:
     db.init()
 
     history = pd.read_csv(args.source)
-    required = ["step", "customer", "merchant", "age", "gender", "category", "amount"]
+    required = {"step", "customer", "merchant", "age", "gender", "category", "amount"}
     missing = required - set(history.columns)
     
     if missing:

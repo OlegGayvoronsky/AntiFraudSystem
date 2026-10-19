@@ -144,6 +144,7 @@ def save_shap(transaction_ids, shap_dicts, model_version):
 def save_fraud_label(
     transaction_id: str,
     fraud: bool,
+    fraud_type: str
 ) -> None:
     if settings.database_url is None:
         return
@@ -157,7 +158,7 @@ def save_fraud_label(
             DO UPDATE SET fraud = EXCLUDED.fraud, label_received_at = now()
             RETURNING fraud, label_received_at
             """,
-            (transaction_id, fraud, "MODEL"),
+            (transaction_id, fraud, fraud_type),
         ).fetchone()
 
 

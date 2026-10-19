@@ -94,7 +94,7 @@ def test_extra_field_is_422(client, good_row):
 
 
 def test_batch_prediction_is_logged(client, good_row):
-    good_rows = [good_row, {**good_row, "category": "es_transportation"}]
+    good_rows = [good_row, {**good_row, "gender": "M"}]
     body = client.post("/v1/predict/batch", json={"rows": good_rows}).json()
 
     transaction_ids = [item["transaction_id"] for item in body]

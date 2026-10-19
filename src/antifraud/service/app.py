@@ -144,6 +144,7 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
     row = x.model_dump()
     row["transaction_id"] = transaction_id
     payloads = app.state.features.build([row])
+    
     frame = pd.DataFrame(payloads)
     frame = frame.drop("transaction_id", axis=1).reindex(columns=app.state.meta["features"])
 
@@ -160,7 +161,7 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
         db.save_prediction,
         transaction_id,
         app.state.version,
-        payloads[0],
+        frame.iloc[0].to_dict(),
         score,
         decision,
         True if decision == "REVIEW" else None,
@@ -176,12 +177,13 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
         app.state.version,
         top_n
     )
-
-    bg.add_task(
-        db.save_fraud_label,
-        transaction_id=transaction_id,
-        fraud=decision
-    )
+    if decision != "REVIEW":
+        bg.add_task(
+            db.save_fraud_label,
+            transaction_id=transaction_id,
+            fraud=(decision == "BLOCK"),
+            fraud_type="MODEL"
+        )
 
     return Prediction(
         score=score,
@@ -207,6 +209,7 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
         rows.append(row)
 
     payloads = app.state.features.build(rows)
+    
     frame = pd.DataFrame(payloads)
     frame = frame.drop("transaction_id", axis=1).reindex(columns=app.state.meta["features"])
 
@@ -218,14 +221,19 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
     latency_ms = round((time.perf_counter() - t0) * 1000, 2)
 
     results = []
-    for transaction_id, payload, f_row, score in zip(ids, payloads, frame, scores, strict=True):
+    for transaction_id, (_, f_row), score in zip(
+        ids,
+        frame.iterrows(),
+        scores,
+        strict=True,
+    ):
         score = float(score)
         decision = decide(score, threshold_b)
         bg.add_task(
             db.save_prediction,
             transaction_id,
             app.state.version,
-            payload,
+            f_row.to_dict(),
             score,
             decision,
             True if decision == "REVIEW" else None,
@@ -233,29 +241,31 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
             200
         )
 
-        bg.add_task(
-            log_shap,
-            app.state.explainer,
-            f_row.copy(),
-            [transaction_id],
-            app.state.version,
-            top_n
-        )
-
-        bg.add_task(
-            db.save_fraud_label,
-            transaction_id=transaction_id,
-            fraud=decision
-        )
+        if decision != "REVIEW":
+            bg.add_task(
+                db.save_fraud_label,
+                transaction_id=transaction_id,
+                fraud=(decision == "BLOCK"),
+                fraud_type="MODEL"
+            )
 
         results.append(
             Prediction(
                 score=score,
                 decision=decision,
                 model_version=app.state.version,
-                request_id=transaction_id,
+                transaction_id=transaction_id,
                 latency_ms=latency_ms,
             )
         )
+
+    bg.add_task(
+        log_shap,
+        app.state.explainer,
+        frame.copy(),
+        ids,
+        app.state.version,
+        top_n,
+    )
 
     return results
