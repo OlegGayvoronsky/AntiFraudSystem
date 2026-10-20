@@ -27,7 +27,7 @@ class BatchFeatures(BaseModel):
 
 class Prediction(BaseModel):
     score: float
-    decision: Literal["ФРОД", "НЕ ФРОД", "НЕОПРЕДЕЛЕНО"]
+    decision: Literal["ALLOW", "BLOCK", "REVIEW"]
     model_version: str
-    request_id: str
+    transaction_id: str
     latency_ms: float

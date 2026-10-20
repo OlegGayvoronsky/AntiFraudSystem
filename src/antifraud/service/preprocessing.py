@@ -1,240 +1,240 @@
 """
-Онлайн-препроцессинг: воспроизводит обучающие исторические признаки
-(make_customer_agg_features / make_merchant_agg_features) по инкрементальному
-состоянию на сущность (customer / merchant). Всё общение с БД -- через db.py.
+Препроцессинг без состояния: исторические признаки считаются по таблице
+transactions, по ВСЕМ транзакциям сущности (customer / merchant) со
+step < step текущей транзакции.
 
-Семантика (как в обучении):
-  * *_prev_step -- агрегаты по ПРЕДЫДУЩЕМУ шагу, в котором у сущности были
-    транзакции (не step-1). Транзакции того же шага не учитываются.
-  * холодный старт -- нули и has_*_history = 0.
+Батч обрабатывается по шагам (step по возрастанию):
+  1. берём все строки текущего step;
+  2. для каждой считаем признаки по step < s (строки того же step друг друга не видят);
+  3. сохраняем эти строки в transactions (в рамках той же БД-транзакции);
+  4. переходим к следующему step -- он уже видит сохранённые строки.
+
+Использование (commit в БД происходит при выходе из with, после предсказания;
+при исключении всё откатывается):
+
+    with builder.session() as fs:
+        enriched = fs.build(rows)
+        scores = model.predict_proba(frame_from(enriched))[:, 1]
+
+Имена признаков сохранены (*_prev_step, ...), но теперь это агрегаты по всей
+предыдущей истории, а не по одному предыдущему шагу -- модель и офлайн-признаки
+должны быть обучены с тем же определением.
 """
 from __future__ import annotations
 
-import copy
-import math
 import threading
+import uuid
+from collections import defaultdict
 from collections.abc import Iterator
 from contextlib import contextmanager
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Protocol
 
+import numpy as np
 import pandas as pd
 
 from antifraud import db
 from antifraud.config import settings
 
 CUSTOMER, MERCHANT = "customer", "merchant"
+NAMESPACE = uuid.UUID("6f1c2a52-4a0e-4c3b-9d57-0b7a3a1f2e11")
 
 
-class LateTransactionError(ValueError):
-    """step транзакции меньше текущего шага сущности: состояние не откатить."""
+@dataclass(frozen=True)
+class Stats:
+    n: int
+    mean: float
+    std: float
+    last_step: int
+    unique: int
 
 
-@dataclass
-class EntityState:
-    cur_step: int | None = None
-    cur_n: int = 0
-    cur_mean: float = 0.0
-    cur_m2: float = 0.0
-    cur_partners: set = field(default_factory=set)
-    prev: dict | None = None
 
-    def to_dict(self) -> dict:
-        return {
-            "cur_step": self.cur_step,
-            "cur_n": self.cur_n,
-            "cur_mean": self.cur_mean,
-            "cur_m2": self.cur_m2,
-            "cur_partners": sorted(self.cur_partners),
-            "prev": self.prev,
-        }
-
-    @classmethod
-    def from_dict(cls, data: dict | None) -> EntityState:
-        if not data:
-            return cls()
-
-        data = dict(data)
-        data["cur_partners"] = set(data.get("cur_partners", []))
-        
-        return cls(**data)
-
-
-def _close_step(st: EntityState) -> None:
-    n = st.cur_n
-    st.prev = {
-        "step": st.cur_step,
-        "n": n,
-        "mean": st.cur_mean,
-        "std": math.sqrt(st.cur_m2 / (n - 1)) if n > 1 else 0.0,
-        "unique": len(st.cur_partners),
-    }
-
-    st.cur_n, st.cur_mean, st.cur_m2 = 0, 0.0, 0.0
-    st.cur_partners = set()
-
-
-def _advance(st: EntityState, step: int) -> None:
-    if st.cur_step is None:
-        st.cur_step = step
-
-    elif step < st.cur_step:
-        raise LateTransactionError(
-            f"step={step} < current step {st.cur_step} of the entity"
-        )
-
-    elif step > st.cur_step:
-        _close_step(st)
-        st.cur_step = step
-
-
-def _update(
-    st: EntityState,
-    amount: float,
-    partner: str | None
-) -> None:
-    st.cur_n += 1
-    
-    delta = amount - st.cur_mean
-    
-    st.cur_mean += delta / st.cur_n
-    st.cur_m2 += delta * (amount - st.cur_mean)
-    
-    if partner is not None:
-        st.cur_partners.add(partner)
-
-
-def _entity_features(
-    kind: str,
-    st: EntityState,
-    step: int,
-    amount: float
-) -> dict:
-    p = st.prev
-
-    count = p["n"] if p else 0
-    avg = p["mean"] if p else 0.0
-    std = p["std"] if p else 0.0
-    time_since = (step - p["step"]) if p else 0
-    am_to_avg = amount / avg if avg > 0 else 0.0
-    
+def entity_features(kind: str, st: Stats | None, step: int, amount: float) -> dict:
+    avg = st.mean if st else 0.0
     f = {
-        f"{kind}_transaction_count_prev_step": count,
+        f"{kind}_transaction_count_prev_step": st.n if st else 0,
         f"{kind}_avg_amount_prev_step": avg,
-        f"{kind}_std_amount_prev_step": std,
-        f"{kind}_time_since_last_transaction": time_since,
-        f"amount_to_{kind}_avg_amount": am_to_avg,
-        f"has_{kind}_history": int(p is not None),
+        f"{kind}_std_amount_prev_step": st.std if st else 0.0,
+        f"{kind}_time_since_last_transaction": (step - st.last_step) if st else 0,
+        f"amount_to_{kind}_avg_amount": amount / avg if avg > 0 else 0.0,
+        f"has_{kind}_history": int(st is not None),
     }
-    
     if kind == MERCHANT:
-        unique_cust = p["unique"] if p else 0
-        f["merchant_unique_customers_prev_step"] = unique_cust
-    
+        f["merchant_unique_customers_prev_step"] = st.unique if st else 0
     return f
 
 
-class StateStore(Protocol):
-    def transaction(self, keys: set[tuple[str, str]], commit: bool = True): ...
+class DbSession:
+    def __init__(self, conn) -> None:
+        self.conn = conn
+
+    def entity_stats(self, kind: str, ids: set, step: int) -> dict:
+        raw = db.fetch_entity_stats(self.conn, kind, ids, step)
+        return {k: Stats(*v) for k, v in raw.items()}
+
+    def insert(self, rows: list[dict]) -> None:
+        db.insert_transactions(self.conn, rows)
 
 
-class DbStateStore:
-    """Состояние в Postgres через db.state_transaction (блокировки и upsert там)."""
-
+class DbStore:
     @contextmanager
-    def transaction(self, keys, commit: bool = True) -> Iterator[dict]:
-        with db.state_transaction(keys, commit=commit) as raw:
-            states = {k: EntityState.from_dict(raw.get(k)) for k in keys}
-            
-            yield states
-            
-            if commit:
-                raw.clear()
-                raw.update({k: st.to_dict() for k, st in states.items()})
+    def session(self, commit: bool = True) -> Iterator[DbSession]:
+        with db.transactions_session() as conn:
+            yield DbSession(conn)
+            if not commit:
+                conn.rollback()
 
 
-class InMemoryStateStore:
-    """Fallback без БД (DATABASE_URL не задан) и для юнит-тестов."""
+class MemorySession:
+    def __init__(self, rows: list[dict]) -> None:
+        self.rows = rows
+        self._ids = {r["transaction_id"] for r in rows}
 
+    def entity_stats(self, kind: str, ids: set, step: int) -> dict:
+        col = kind
+        buckets: dict = defaultdict(list)
+        for row in self.rows:
+            if row["step"] < step and row[col] in ids:
+                buckets[row[col]].append(row)
+        out = {}
+        for key, rows in buckets.items():
+            amounts = np.array([row["amount"] for row in rows], dtype=float)
+            out[key] = Stats(
+                n=len(rows),
+                mean=float(amounts.mean()),
+                std=float(amounts.std(ddof=1)) if len(rows) > 1 else 0.0,
+                last_step=max(row["step"] for row in rows),
+                unique=len({row["customer"] for row in rows}),
+            )
+        return out
+
+    def insert(self, rows: list[dict]) -> None:
+        for row in rows:
+            if row["transaction_id"] not in self._ids:
+                self._ids.add(row["transaction_id"])
+                self.rows.append(row)
+
+
+class InMemoryStore:
     def __init__(self) -> None:
-        self._data: dict[tuple[str, str], EntityState] = {}
+        self._rows: list[dict] = []
         self._lock = threading.Lock()
 
     @contextmanager
-    def transaction(self, keys, commit: bool = True) -> Iterator[dict]:
+    def session(self, commit: bool = True) -> Iterator[MemorySession]:
         with self._lock:
-            states = {
-                k: copy.deepcopy(self._data[k]) if k in self._data else EntityState()
-                for k in keys
-            }
-
-            yield states
-            
+            sess = MemorySession(list(self._rows))
+            yield sess
             if commit:
-                self._data.update(states)
+                self._rows = sess.rows
 
 
-def make_store() -> StateStore:
-    return DbStateStore() if settings.database_url else InMemoryStateStore()
+class TransactionStore(Protocol):
+    def session(self, commit: bool = True): ...
 
 
+def make_store() -> TransactionStore:
+    return DbStore() if settings.database_url else InMemoryStore()
 
-class FeatureBuilder:
-    def __init__(self, store: StateStore | None = None) -> None:
-        self.store = store or make_store()
 
-    def build(self, rows: list[dict], commit: bool = True) -> list[dict]:
+class FeatureSession:
+    def __init__(self, store_session) -> None:
+        self.store_session = store_session
+
+    def build(self, rows: list[dict]) -> list[dict]:
         """
-        rows: dict-и с step, customer, merchant, amount (+ любые другие поля).
-        Возвращает dict-и в ИСХОДНОМ порядке: исходные поля + исторические признаки.
-        commit=False -- посчитать признаки, не меняя состояние.
+        rows: словари с transaction_id, step, customer, merchant, age, gender, category, amount
+        Возвращает словари в исходном порядке: исходные поля + transaction_id
+        + исторические признаки. Строки сохраняются в transactions шаг за шагом.
         """
-        return self._process(rows, want_features=True, commit=commit)
-
-    def ingest(self, rows: list[dict]) -> None:
-        """Только обновить состояние (прогрев историей)."""
-        self._process(rows, want_features=False, commit=True)
-
-    def _process(self, rows, want_features: bool, commit: bool):
-        if not rows:
-            return []
-
-        keys = {(CUSTOMER, str(r["customer"])) for r in rows}
-        keys |= {(MERCHANT, str(r["merchant"])) for r in rows}
-
         out: list[dict | None] = [None] * len(rows)
-        order = sorted(range(len(rows)), key=lambda i: rows[i]["step"])
+        by_step: dict[int, list[int]] = defaultdict(list)
+        for i, row in enumerate(rows):
+            by_step[int(row["step"])].append(i)
 
-        with self.store.transaction(keys, commit=commit) as states:
-            for i in order:
-                r = rows[i]
-                step, amount = int(r["step"]), float(r["amount"])
+        for step in sorted(by_step):
+            idxs = by_step[step]
+            cids = {rows[i]["customer"] for i in idxs}
+            mids = {rows[i]["merchant"] for i in idxs}
 
-                c, m = str(r["customer"]), str(r["merchant"])
-                cs, ms = states[(CUSTOMER, c)], states[(MERCHANT, m)]
+            c_stats = self.store_session.entity_stats(CUSTOMER, cids, step)
+            m_stats = self.store_session.entity_stats(MERCHANT, mids, step)
 
-                _advance(cs, step)
-                _advance(ms, step)
+            to_insert = []
+            for i in idxs:
+                row = rows[i]
+                amount = float(row["amount"])
+                tid = str(row.get("transaction_id") or uuid.uuid4())
+                cid = row["customer"]
+                mid = row["merchant"]
 
-                if want_features:
-                    out[i] = {
-                        **r,
-                        **_entity_features(CUSTOMER, cs, step, amount),
-                        **_entity_features(MERCHANT, ms, step, amount),
-                    }
+                out[i] = {
+                    **row,
+                    "transaction_id": tid,
+                    **entity_features(CUSTOMER, c_stats.get(cid), step, amount),
+                    **entity_features(MERCHANT, m_stats.get(mid), step, amount),
+                }
+                to_insert.append({
+                    "transaction_id": tid, "step": step,
+                    "customer": cid, "merchant": mid,
+                    "age": str(row["age"]), "gender": str(row["gender"]),
+                    "category": str(row["category"]), "amount": amount,
+                })
 
-                _update(cs, amount, None)
-                _update(ms, amount, c)
+            self.store_session.insert(to_insert)
         return out
 
 
-def warm_start(
-    builder: FeatureBuilder,
-    history: pd.DataFrame,
-    chunk: int = 20_000
-) -> None:
-    """Прогрев состояния историей (step, customer, merchant, amount) по возрастанию step."""
-    h = history.sort_values("step", kind="stable")
-    cols = ["step", "customer", "merchant", "amount"]
+class FeatureBuilder:
+    def __init__(self, store: TransactionStore | None = None) -> None:
+        self.store = store or make_store()
+
+    @contextmanager
+    def session(self, commit: bool = True) -> Iterator[FeatureSession]:
+        """commit=False: признаки считаются (в т.ч. с учётом более ранних step
+        внутри батча), но в БД ничего не остаётся."""
+        with self.store.session(commit=commit) as store:
+            yield FeatureSession(store)
+
+    def build(self, rows: list[dict], commit: bool = True) -> list[dict]:
+        with self.session(commit=commit) as feature_session:
+            return feature_session.build(rows)
+
+
+
+def warm_start(builder: FeatureBuilder, history: pd.DataFrame, chunk: int = 20_000) -> None:
+    """
+    Загружает историю в transactions (без расчёта признаков). Идемпотентно:
+    transaction_id берётся из колонки transaction_id, а если её нет --
+    детерминированно строится из содержимого строки, поэтому повторный
+    запуск на том же файле не создаёт дублей (ON CONFLICT DO NOTHING).
+    """
+    h = history.sort_values("step", kind="stable").reset_index(drop=True)
     for start in range(0, len(h), chunk):
-        builder.ingest(h.iloc[start:start + chunk][cols].to_dict("records"))
+        part = h.iloc[start:start + chunk]
+        rows = []
+        for pos, row in zip(
+            range(start, start + len(part)),
+            part.itertuples(index=False),
+            strict=True
+        ):
+            tid = (
+                row.transaction_id if "transaction_id" in part.columns
+                else str(uuid.uuid5(
+                    NAMESPACE,
+                    f"{pos}|{row.step}|{row.customer}|{row.age}|"
+                    f"{row.gender}|{row.merchant}|{row.category}|{row.amount}"
+                ))
+            )
+
+            rows.append({
+                "transaction_id": tid, "step": int(row.step),
+                "customer": row.customer,
+                "merchant": row.merchant,
+                "age": row.age, "gender": str(row.gender),
+                "category": str(row.category), "amount": float(row.amount),
+            })
+        with builder.store.session() as store:
+            store.insert(rows)
+
