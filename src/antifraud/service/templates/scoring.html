@@ -76,6 +76,7 @@
   .bar.neg { right: 50%; background: var(--allow); }
   .muted { color: var(--muted); }
   .footer { display: flex; justify-content: center; padding: 14px; }
+  .hint { cursor: help; text-decoration: underline dotted; text-underline-offset: 3px; }
 </style>
 </head>
 <body>
@@ -128,8 +129,10 @@
   <div class="footer"><button class="btn secondary hidden" id="more">Загрузить ещё</button></div>
 </main>
 
+<script type="application/json" id="labels-data">{{ labels | tojson }}</script>
 <script>
 const API = "{{ api }}";
+const LABELS = JSON.parse(document.getElementById("labels-data").textContent);
 const state = { mode: "review", offset: 0, total: 0, shown: 0, loading: false };
 
 const $ = (s) => document.querySelector(s);
@@ -305,7 +308,10 @@ function renderDetail(it, root) {
   if (it.features) {
     const keys = Object.keys(it.features).sort();
     if (!keys.length) featBox.replaceWith();
-    keys.forEach((k) => featBox.append(h("span", {}, k), h("span", {}, fmt(it.features[k]))));
+    keys.forEach((k) => featBox.append(
+      h("span", { class: "hint", title: LABELS[k] || k }, k),
+      h("span", {}, fmt(it.features[k]))
+    ));
   } else {
     featBox.append(h("span", { class: "muted", style: "grid-column:1/-1" },
       it.features_error ? "Не удалось построить признаки: " + it.features_error : "Признаки не загружены"));
@@ -331,7 +337,7 @@ async function loadShap(id, box) {
       const w = (Math.abs(x.value || 0) / max) * 50;  // % от ширины трека (половина — в одну сторону)
       const bar = h("div", { class: "bar " + ((x.value || 0) >= 0 ? "pos" : "neg"), style: `width:${w}%` });
       return h("div", { class: "shap-row" },
-        h("div", { class: "shap-name", title: x.feature }, x.feature),
+        h("div", { class: "shap-name hint", title: LABELS[x.feature] || x.feature }, x.feature),
         h("div", { class: "bar-track" }, bar),
         h("div", { class: "mono", style: "text-align:right" }, (x.value >= 0 ? "+" : "") + Number(x.value).toFixed(4))
       );

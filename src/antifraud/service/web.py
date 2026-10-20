@@ -18,6 +18,7 @@ from psycopg.rows import dict_row
 from pydantic import BaseModel
 
 from antifraud.db import db as _db
+from antifraud.service.explain import FEATURE_LABELS
 
 log = logging.getLogger(__name__)
 
@@ -55,7 +56,9 @@ def _clean(o: Any) -> Any:
 
 @router.get("/scoring", response_class=HTMLResponse)
 def scoring_page(request: Request):
-    return templates.TemplateResponse(request, "scoring.html", {"api": API_PREFIX})
+    return templates.TemplateResponse(
+        request, "scoring.html", {"api": API_PREFIX, "labels": FEATURE_LABELS}
+    )
 
 
 _SELECT = """
@@ -162,8 +165,11 @@ def set_decision(transaction_id: UUID, body: DecisionIn):
             INSERT INTO fraud_labels (transaction_id, fraud, fraud_type)
             VALUES (%s, %s, %s)
             ON CONFLICT (transaction_id)
-            DO UPDATE SET fraud = EXCLUDED.fraud, label_received_at = now()
-            RETURNING fraud, label_received_at
+            DO UPDATE SET
+                fraud = EXCLUDED.fraud,
+                label_received_at = now(),
+                fraud_type = EXCLUDED.fraud_type
+            RETURNING fraud, label_received_at, fraud_type
             """,
             (transaction_id, fraud, "ANALYST"),
         ).fetchone()
@@ -174,6 +180,7 @@ def set_decision(transaction_id: UUID, body: DecisionIn):
             "decision": body.decision,
             "manual_fraud": label["fraud"],
             "label_received_at": label["label_received_at"],
+            "fraud_type": label["fraud_type"],
             "left_review_queue": left_queue,
         }
     )
