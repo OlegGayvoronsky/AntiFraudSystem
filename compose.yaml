@@ -42,9 +42,74 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/antifraud
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODEL_NAME: antifraud_catboost
+      MODEL_ALIAS: champion
     depends_on:
       db:
         condition: service_healthy
+        
+      mlflow:
+        condition: service_healthy
+
+  
+  mlflow-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow_dev_password
+      POSTGRES_DB: mlflow
+    volumes:
+      - mlflow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mlflow -d mlflow"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: mlflow.Dockerfile
+    command:
+      - sh
+      - -c
+      - |
+        mlflow db upgrade "$$MLFLOW_BACKEND_STORE_URI" &&
+        exec mlflow server \
+          --backend-store-uri "$$MLFLOW_BACKEND_STORE_URI" \
+          --artifacts-destination /mlartifacts \
+          --host 0.0.0.0 \
+          --port 5000 \
+          --allowed-hosts "mlflow:5000,mlflow-server:5000,localhost:5000,127.0.0.1:5000"
+    environment:
+      MLFLOW_BACKEND_STORE_URI: postgresql+psycopg://mlflow:mlflow_dev_password@mlflow-db:5432/mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_artifacts:/mlartifacts
+    depends_on:
+      mlflow-db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks:
+      default: {}
+      mlflow-network:
+        aliases:
+          - mlflow-server
+
+networks:
+  mlflow-network:
+    external: true
+    name: mlflow-network
+
 
 volumes:
   pgdata:
+  mlflow_pgdata:
+  mlflow_artifacts:

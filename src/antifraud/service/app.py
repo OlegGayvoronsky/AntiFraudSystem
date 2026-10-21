@@ -4,7 +4,6 @@ import time
 import uuid
 from contextlib import asynccontextmanager
 
-import joblib
 import pandas as pd
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.exception_handlers import request_validation_exception_handler
@@ -14,6 +13,7 @@ from starlette.background import BackgroundTask
 
 from antifraud import db
 from antifraud.config import settings
+from antifraud.model_store import load_model
 from antifraud.service.explain import Explainer
 from antifraud.service.make_decision import decide
 from antifraud.service.models import BatchFeatures, Features, Prediction
@@ -23,10 +23,7 @@ from antifraud.service.web import router as web_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    bundle = joblib.load(settings.model_path)
-    app.state.model = bundle["model"]
-    app.state.meta = bundle["metadata"]
-    app.state.version = bundle["metadata"]["model_version"]
+    app.state.model, app.state.meta, app.state.version = load_model()
     app.state.features = FeatureBuilder()
     app.state.explainer = Explainer(app.state.model, app.state.meta["features"])
     app.state.explainer_top_n = settings.explainer_top_n
@@ -149,11 +146,12 @@ def predict(x: Features, bg: BackgroundTasks) -> Prediction:
     frame = frame.drop("transaction_id", axis=1).reindex(columns=app.state.meta["features"])
 
     model = app.state.model
-    threshold_b = app.state.meta["threshold"]
+    T_low = app.state.meta["T_low"]
+    T_hight = app.state.meta["T_hight"]
     top_n = app.state.explainer_top_n
 
     score = float(model.predict_proba(frame)[0, 1])
-    decision = decide(score, threshold_b)
+    decision = decide(score, T_low=T_low, T_hight=T_hight)
 
     latency_ms = round((time.perf_counter() - t0) * 1000, 2)
 
@@ -214,7 +212,8 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
     frame = frame.drop("transaction_id", axis=1).reindex(columns=app.state.meta["features"])
 
     model = app.state.model
-    threshold_b = app.state.meta["threshold"]
+    T_low = app.state.meta["T_low"]
+    T_hight = app.state.meta["T_hight"]
     top_n = app.state.explainer_top_n
 
     scores = model.predict_proba(frame)[:, 1]
@@ -228,7 +227,7 @@ def predict_batch(x: BatchFeatures, bg: BackgroundTasks) -> list[Prediction]:
         strict=True,
     ):
         score = float(score)
-        decision = decide(score, threshold_b)
+        decision = decide(score, T_low=T_low, T_hight=T_hight)
         bg.add_task(
             db.save_prediction,
             transaction_id,
