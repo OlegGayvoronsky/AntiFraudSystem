@@ -5,11 +5,11 @@ MANUAL_REVIEW_THRESHOLD_A = getattr(settings, "manual_review_threshold", 0.2)
 
 def decide(
     score: float,
-    threshold_b: float,
-    threshold_a: float = MANUAL_REVIEW_THRESHOLD_A
+    T_hight: float,
+    T_low: float
 ) -> str:
-    if score >= threshold_b:
+    if score >= T_hight:
         return "BLOCK"
-    if score < threshold_a:
+    if score < T_low:
         return "ALLOW"
     return "REVIEW"
