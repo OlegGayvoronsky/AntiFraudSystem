@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: antifraud
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -39,7 +39,7 @@ services:
   api:
     build: .
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/antifraud
       MLFLOW_TRACKING_URI: http://mlflow:5000
@@ -85,7 +85,7 @@ services:
     environment:
       MLFLOW_BACKEND_STORE_URI: postgresql+psycopg://mlflow:mlflow_dev_password@mlflow-db:5432/mlflow
     ports:
-      - "5000:5000"
+      - "127.0.0.1:5000:5000"
     volumes:
       - mlflow_artifacts:/mlartifacts
     depends_on:
