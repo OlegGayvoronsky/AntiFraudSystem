@@ -1,0 +1,16 @@
+34-116-193-187.sslip.io {
+    encode gzip
+
+    @ui path /scoring /scoring/*
+    handle @ui {
+        reverse_proxy api:8000
+    }
+
+    handle / {
+        redir /scoring 302
+    }
+
+    handle {
+        respond "Not found" 404
+    }
+}

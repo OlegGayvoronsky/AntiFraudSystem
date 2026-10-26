@@ -45,6 +45,7 @@ services:
       MLFLOW_TRACKING_URI: http://mlflow:5000
       MODEL_NAME: antifraud_catboost
       MODEL_ALIAS: champion
+      DEMO_MODE: "true"
     depends_on:
       db:
         condition: service_healthy
@@ -103,6 +104,19 @@ services:
         aliases:
           - mlflow-server
 
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+    restart: unless-stopped
+
 networks:
   mlflow-network:
     external: true
@@ -113,3 +127,5 @@ volumes:
   pgdata:
   mlflow_pgdata:
   mlflow_artifacts:
+  caddy_data:
+  caddy_config:

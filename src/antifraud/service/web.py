@@ -19,6 +19,9 @@ from pydantic import BaseModel
 
 from antifraud.db import db as _db
 from antifraud.service.explain import FEATURE_LABELS
+import os
+
+DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() in ("1", "true", "yes")
 
 log = logging.getLogger(__name__)
 
@@ -146,6 +149,17 @@ class DecisionIn(BaseModel):
 @router.post(API_PREFIX + "/transactions/{transaction_id}/decision")
 def set_decision(transaction_id: UUID, body: DecisionIn):
     fraud = body.decision == "BLOCK"
+    
+    if DEMO_MODE:
+        return {
+            "transaction_id": transaction_id,
+            "decision": body.decision,
+            "manual_fraud": fraud,
+            "label_received_at": None,
+            "fraud_type": "DEMO",
+            "left_review_queue": True,
+        }
+
     with _db(dict_row) as conn:
         exists = conn.execute(
             "SELECT 1 FROM transactions WHERE transaction_id = %s", (transaction_id,)

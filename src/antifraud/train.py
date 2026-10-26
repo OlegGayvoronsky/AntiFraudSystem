@@ -52,8 +52,8 @@ USE_EARLY_STOPPING = os.getenv("USE_EARLY_STOPPING", "False").lower() in ("1", "
 EARLY_STOPPING_ROUNDS = int(os.getenv("EARLY_STOPPING_ROUNDS", "150"))
 TARGET_REVIEW_RATE = float(os.getenv("REVIEW_RATE", "0.1"))
 N_THRESHOLDS = int(os.getenv("N_THRESHOLDS", "100"))
-FALSE_BLOCK_COST = float(os.getenv("FALSE_BLOCK_COST", "110"))
-REVIEW_COST = float(os.getenv("REVIEW_COST", "11.0"))
+FALSE_BLOCK_COST = float(os.getenv("FALSE_BLOCK_COST", "1.22"))
+REVIEW_COST = float(os.getenv("REVIEW_COST", "0.12"))
 SEED = 42
 
 GATE_MIN_GAIN = float(os.getenv("GATE_MIN_GAIN", "0.0032"))
