@@ -833,12 +833,11 @@ def main() -> dict:
         version = info.registered_model_version
 
     old_version, old_recall, old_total_cost_proxy = champion_metrics(client)
-
-    promoted = (old_recall is None) or (
+    promoted = bool((old_recall is None) or (
         (metrics["test_recall"] > old_recall + GATE_MIN_GAIN)
         and
         (metrics["total_cost_proxy"] < old_total_cost_proxy)
-    )
+    ))
     client.set_registered_model_alias(MODEL_NAME, "challenger", version)
 
     if promoted:
