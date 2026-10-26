@@ -849,8 +849,12 @@ def main() -> dict:
         "recall": round(metrics["test_recall"], 4),
         "total_cost_proxy": metrics["total_cost_proxy"],
         "data_md5": data_md5, "champion_before": old_version,
-        "champion_recall_before": round(old_recall, 4),
-        "champion_total_cost_proxy_before": round(old_total_cost_proxy, 4), "promoted": promoted
+        "champion_recall_before": round(old_recall, 4) if old_recall is not None else None,
+        "champion_total_cost_proxy_before": round(
+            old_total_cost_proxy,
+            4
+        ) if old_total_cost_proxy is not None else None,
+        "promoted": promoted
     }
     print(json.dumps(result, ensure_ascii=False))
 
