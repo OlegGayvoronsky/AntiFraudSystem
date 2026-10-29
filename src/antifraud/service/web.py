@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import logging
 import math
+import os
 import re
 from pathlib import Path
 from typing import Any, Literal
@@ -19,7 +20,6 @@ from pydantic import BaseModel
 
 from antifraud.db import db as _db
 from antifraud.service.explain import FEATURE_LABELS
-import os
 
 DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() in ("1", "true", "yes")
 

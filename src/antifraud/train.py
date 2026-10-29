@@ -656,7 +656,8 @@ def make_experiment(
         T_low=T_low
     )
 
-    metadata = {"features": features, "T_hight": float(T_hight), "T_low": float(T_low), "n_train": len(X_train),
+    metadata = {"features": features, "T_hight": float(T_hight),
+                "T_low": float(T_low), "n_train": len(X_train),
                 "numeric_cols": num_features, "categorical_cols": cat_features,
                 "data_rows": len(df), "data_md5": data_md5,
                 "sklearn": sklearn.__version__, "catboost": catboost.__version__,

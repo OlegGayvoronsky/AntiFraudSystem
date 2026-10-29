@@ -116,11 +116,17 @@ services:
     depends_on:
       - api
     restart: unless-stopped
+    networks:
+      - default
+      - web
 
 networks:
   mlflow-network:
     external: true
     name: mlflow-network
+  web:
+    external: true
+    name: web
 
 
 volumes:
