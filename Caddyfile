@@ -19,7 +19,7 @@ pd-scoring.34-116-193-187.sslip.io {
     encode gzip
 
     @ui {
-        path / /static/* /uploads/* /v1/applications/upload /v1/applications/unscored /v1/predict/batch /v1/predictions /v1/predictions/export
+        path / /static/* /uploads/* /v1/applications/upload /v1/applications/unscored /v1/predict/batch /v1/predictions /v1/predictions/export /v1/review /v1/review/*
     }
     handle @ui {
         reverse_proxy pd-ui:8000
