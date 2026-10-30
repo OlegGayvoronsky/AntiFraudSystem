@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: antifraud-config
-data:
-  LOG_LEVEL: "INFO"
-  MODEL_PATH: artifacts/catboost_11.joblib
